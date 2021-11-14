@@ -1,64 +1,33 @@
+import 'dart:async';
+import 'dart:isolate';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:house_of_auctions/app_main.dart';
+import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
+import 'package:house_of_auctions/infrastructure/core/di/di.dart';
+import 'package:injectable/injectable.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+  /* SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent)); */
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
+  );
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  await configureDependencyInjection(Environment.dev);
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  Isolate.current.addErrorListener(
+    RawReceivePort((pair) async {
+      final errorAndStacktrace = pair as List;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
+      logger.error(
+        'An error was captured by main.Isolate.current.addErrorListener',
+        error: errorAndStacktrace.first,
+      );
+    }).sendPort,
+  );
+
+  runApp(AppMain());
 }
