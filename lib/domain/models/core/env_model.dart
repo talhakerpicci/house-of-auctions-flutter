@@ -11,10 +11,10 @@ part 'env_model.g.dart';
 class EnvModel with _$EnvModel {
   factory EnvModel({
     required String env,
-    /* required bool debug,
+    required bool debug,
     required bool debugShowCheckedModeBanner,
     required bool debugShowMaterialGrid,
-    required bool debugApiClient,
+    /* required bool debugApiClient,
     required String apiBaseUrl,
     required String ssoBaseUrl,
     required String clientId,
@@ -27,7 +27,6 @@ class EnvModel with _$EnvModel {
   @factoryMethod
   static Future<EnvModel> create() async {
     const env = String.fromEnvironment('APP_ENV', defaultValue: 'dev');
-
     final rawEnvData = await rootBundle.loadString(
       'assets/config/$env.json',
     );
