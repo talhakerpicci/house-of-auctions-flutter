@@ -1,3 +1,6 @@
 {
-    "env": "development"
+    "env": "development",
+    "debug": true,
+    "debugShowCheckedModeBanner": true,
+    "debugShowMaterialGrid": false
 }
