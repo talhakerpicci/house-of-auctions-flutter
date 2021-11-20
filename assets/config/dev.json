@@ -2,5 +2,7 @@
     "env": "development",
     "debug": true,
     "debugShowCheckedModeBanner": true,
-    "debugShowMaterialGrid": false
+    "debugShowMaterialGrid": false,
+    "debugApiClient": true,
+    "apiBaseUrl": "http://localhost:3003"
 }
