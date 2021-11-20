@@ -11,17 +11,11 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 50),
-        color: const Color(0xFF3B97A1),
+        color: const Color(0xFF14bf96),
         child: Stack(
           fit: StackFit.expand,
           alignment: Alignment.center,
           children: [
-            /* const Align(
-              alignment: Alignment.topCenter,
-              child: Icon(
-                Icons.ac_unit,
-              ),
-            ), */
             Positioned(
               top: 100,
               child: Center(
@@ -34,7 +28,7 @@ class SplashScreen extends StatelessWidget {
             ),
             Image.asset('assets/images/splash_logo.png'),
             const Positioned(
-              bottom: 130,
+              bottom: 100,
               child: Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
