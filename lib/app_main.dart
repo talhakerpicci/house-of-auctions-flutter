@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:house_of_auctions/app_handler.dart';
+import 'package:house_of_auctions/infrastructure/core/constants/app_theme.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
-import 'package:house_of_auctions/presentation/screens/intro_screen.dart';
 import 'package:house_of_auctions/presentation/screens/splash_screen.dart';
 
 class AppMain extends StatelessWidget {
@@ -32,15 +33,17 @@ class AppMain extends StatelessWidget {
         placeholder: (context) => SplashScreen(),
       ),
       routeInformationParser: _appRouter.defaultRouteParser(),
-      localizationsDelegates: [_i18nDelegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
-      /* theme: BordaTheme.defaultTheme, */
+      localizationsDelegates: [
+        _i18nDelegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      theme: AppTheme.defaultTheme,
       builder: (_, router) {
-        return const IntroScreen();
-
-        /* AppHandler(
+        return AppHandler(
           screen: router!,
           navigatorKey: _appRouter.navigatorKey,
-        ); */
+        );
       },
     );
   }
