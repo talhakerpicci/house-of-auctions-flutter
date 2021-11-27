@@ -2,13 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color borda1 = Color(0xFFF0552C);
-  static const Color borda2 = Color(0xFF55959F);
-  static const Color borda3 = Color(0xFF2B444A);
-
   static const Color lightGrey = Color(0xFFF3F5F6);
+  static const Color lightGrey2 = Color(0xFFededed);
   static const Color darkGrey = Color(0xFF494949);
-  static const Color blue = Color(0xFF69C9FF);
+  static const Color blue = Color(0xFF29b2ff);
   static const Color green = Color(0xFF40DBA3);
   static const Color red = Color(0xFFE4756D);
   static const Color orange = Color(0xFFE5A071);
