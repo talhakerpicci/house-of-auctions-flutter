@@ -29,7 +29,7 @@ class IntroScreenState extends State<IntroScreen> {
       const AppDataModel(showIntro: false),
     );
 
-    await context.router.replace(const SignUpScreenRoute());
+    await context.router.replace(const WelcomeScreenRoute());
   }
 
   Widget renderDoneBtn() {
