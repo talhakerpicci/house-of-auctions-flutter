@@ -2,7 +2,7 @@
     package="com.example.house_of_auctions">
    <application
         android:label="House of Auctions"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
