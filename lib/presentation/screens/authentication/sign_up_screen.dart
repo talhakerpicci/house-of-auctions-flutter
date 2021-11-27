@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
 import 'package:house_of_auctions/presentation/widgets/core/text_field.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
@@ -69,7 +71,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: AppColors.blue,
                 fullWidth: false,
                 buttonPadding: const EdgeInsets.symmetric(horizontal: 20),
-                onPressed: () {},
+                onPressed: () {
+                  context.router.replaceAll([const AppNavigatorRoute()]);
+                },
                 child: Center(
                   child: Text(
                     'Sign Up',

@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fullWidth: false,
                 buttonPadding: const EdgeInsets.symmetric(horizontal: 20),
                 onPressed: () {
-                  context.router.push(const AppNavigatorRoute());
+                  context.router.replaceAll([const AppNavigatorRoute()]);
                 },
                 child: Center(
                   child: Text(
