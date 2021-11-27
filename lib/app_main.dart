@@ -6,6 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:house_of_auctions/app_handler.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/app_theme.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
+import 'package:house_of_auctions/infrastructure/core/di/di.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/data_storage/data_storage.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 import 'package:house_of_auctions/presentation/screens/splash_screen.dart';
 
@@ -25,12 +27,16 @@ class AppMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final result = getIt<HiveDataStorage>().read();
     return MaterialApp.router(
       debugShowCheckedModeBanner: env.debugShowCheckedModeBanner,
       debugShowMaterialGrid: env.debugShowMaterialGrid,
       routerDelegate: AutoRouterDelegate(
         _appRouter,
-        placeholder: (context) => SplashScreen(),
+        /* placeholder: (context) => SplashScreen(), */
+        initialRoutes: [
+          if (result.showIntro) const IntroScreenRoute(),
+        ],
       ),
       routeInformationParser: _appRouter.defaultRouteParser(),
       localizationsDelegates: [
