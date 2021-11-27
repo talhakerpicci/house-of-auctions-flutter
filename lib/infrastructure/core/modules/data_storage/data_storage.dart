@@ -12,14 +12,13 @@ class HiveDataStorage {
 
   @factoryMethod
   static Future<HiveDataStorage> create() async {
-    await Hive.initFlutter();
     final box = await Hive.openBox('appData');
-
+    
     return HiveDataStorage(box);
   }
 
   AppDataModel read() {
-    final _showIntro = _hiveBox.get('showIntro', defaultValue: null) as bool;
+    final _showIntro = _hiveBox.get('showIntro', defaultValue: true) as bool;
 
     return AppDataModel(showIntro: _showIntro);
   }

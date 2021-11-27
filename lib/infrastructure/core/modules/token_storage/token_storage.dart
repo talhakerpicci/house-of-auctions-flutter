@@ -13,10 +13,8 @@ class HiveTokenStorage extends TokenStorage<TokenModel> {
 
   @factoryMethod
   static Future<HiveTokenStorage> create() async {
-    // inits hive storage and makes the token box ready
-    await Hive.initFlutter();
     final box = await Hive.openBox('tokens');
-
+    
     return HiveTokenStorage(box);
   }
 
