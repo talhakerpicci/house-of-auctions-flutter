@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
-import 'package:house_of_auctions/infrastructure/core/modules/data_storage/data_storage.dart';
+import 'package:house_of_auctions/infrastructure/core/helpers/log/log_it.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 
 class AppHandler extends StatefulWidget {
@@ -19,6 +19,7 @@ class AppHandler extends StatefulWidget {
 }
 
 class _AppHandlerState extends State<AppHandler> {
+  bool isInitialRun = true;
   @override
   Widget build(BuildContext context) {
     // displays an any overlay in order to block or inform the user
@@ -57,20 +58,15 @@ class _AppHandlerState extends State<AppHandler> {
   // in any active page according to the authState.
   Widget _authHandler() {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-        const IntroScreenRoute(),
-      );
-      final result = getIt<HiveDataStorage>().read();
-      if (result.showIntro) {
+      if (isInitialRun) {
         AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-          const IntroScreenRoute(),
+          const WelcomeScreenRoute(),
         );
-      } else {
-        AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-          const SignUpScreenRoute(),
-        );
+        isInitialRun = false;
       }
     });
+
+    getIt<LogIt>().error(isInitialRun);
 
     return widget.screen; /* BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
