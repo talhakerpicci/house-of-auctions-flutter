@@ -29,8 +29,5 @@ class Gradients {
     AppColors.orange: orange,
     AppColors.red: red,
     AppColors.yellow: yellow,
-    AppColors.borda1: [AppColors.borda1, AppColors.borda1],
-    AppColors.borda2: [AppColors.borda2, AppColors.borda2],
-    AppColors.borda3: [AppColors.borda3, AppColors.borda3],
   };
 }
