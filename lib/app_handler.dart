@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/log/log_it.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/data_storage/data_storage.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 
 class AppHandler extends StatefulWidget {
@@ -57,6 +58,10 @@ class _AppHandlerState extends State<AppHandler> {
   // listens auth status in order to navigate the user
   // in any active page according to the authState.
   Widget _authHandler() {
+    final result = getIt<HiveDataStorage>().read();
+    if (result.showIntro) {
+      isInitialRun = false;
+    }
     Future.delayed(const Duration(milliseconds: 2000), () {
       if (isInitialRun) {
         AutoRouter.of(widget.navigatorKey.currentContext!).replace(
