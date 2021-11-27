@@ -23,13 +23,15 @@ double getBottomBarHeight() {
 }
 
 double getReducedScreenHeight(BuildContext context) {
-  return MediaQuery.of(context).size.height -
-      AppBar().preferredSize.height -
-      kBottomNavigationBarHeight;
+  return MediaQuery.of(context).size.height - AppBar().preferredSize.height - kBottomNavigationBarHeight;
 }
 
 TextTheme getTextTheme(BuildContext context) {
   return Theme.of(context).textTheme;
+}
+
+void unFocus() {
+  WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
 }
 
 String tr(
