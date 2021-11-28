@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:house_of_auctions/application/app/app_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
+import 'package:house_of_auctions/presentation/screens/items/item_feed_screen.dart';
 import 'package:house_of_auctions/presentation/widgets/core/bottom_nav_bar.dart';
 import 'package:house_of_auctions/presentation/widgets/core/search_app_bar_widget.dart';
 import 'package:provider/provider.dart';
@@ -32,9 +33,7 @@ class _AppNavigatorState extends State<AppNavigator> {
 
   List<Widget> _getBodyViews() {
     return [
-      const Center(
-        child: Text('Feed'),
-      ),
+      const ItemFeedScreen(),
       const Center(
         child: Text('Following'),
       ),
