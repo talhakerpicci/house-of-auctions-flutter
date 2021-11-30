@@ -7,7 +7,7 @@ class CustomTextField extends StatelessWidget {
   final TextCapitalization? textCapitalization;
   final int? maxLength;
   final Function(String) onChanged;
-  final String Function(String?)? validator;
+  final String? Function(String?)? validator;
   final EdgeInsetsGeometry? contentPadding;
   final EdgeInsetsGeometry? padding;
   final double? width;
@@ -26,6 +26,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onFieldSubmitted;
   final TextEditingController? controller;
   final Widget? prefixIcon;
+  final bool obscureText;
 
   const CustomTextField({
     Key? key,
@@ -54,6 +55,7 @@ class CustomTextField extends StatelessWidget {
     this.focusNode,
     this.onFieldSubmitted,
     this.controller,
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -75,6 +77,7 @@ class CustomTextField extends StatelessWidget {
         cursorColor: Colors.grey,
         maxLength: maxLength,
         style: textStyle,
+        obscureText: obscureText,
         inputFormatters: inputFormatters ??
             <TextInputFormatter>[
               if (digitsOnly)
