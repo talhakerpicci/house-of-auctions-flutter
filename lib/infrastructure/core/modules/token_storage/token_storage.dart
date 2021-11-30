@@ -1,12 +1,11 @@
-import 'package:fresh_dio/fresh_dio.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:house_of_auctions/domain/models/core/token_model.dart';
 import 'package:injectable/injectable.dart';
 
-@LazySingleton(as: TokenStorage)
+@lazySingleton
 @preResolve
-class HiveTokenStorage extends TokenStorage<TokenModel> {
+class HiveTokenStorage {
   final Box<dynamic> _hiveBox;
 
   HiveTokenStorage(this._hiveBox);
@@ -14,16 +13,15 @@ class HiveTokenStorage extends TokenStorage<TokenModel> {
   @factoryMethod
   static Future<HiveTokenStorage> create() async {
     final box = await Hive.openBox('tokens');
-    
+
     return HiveTokenStorage(box);
   }
 
-  @override
-  Future<TokenModel?> read() async {
+  TokenModel? read() {
     final _accessToken = _hiveBox.get('accessToken', defaultValue: '') as String;
     final _refreshToken = _hiveBox.get('refreshToken', defaultValue: '') as String;
 
-    if (_accessToken.isNotEmpty && _refreshToken.isNotEmpty) {
+    if (_accessToken.isNotEmpty) {
       return TokenModel(
         accessToken: _accessToken,
         refreshToken: _refreshToken,
@@ -33,7 +31,6 @@ class HiveTokenStorage extends TokenStorage<TokenModel> {
     return null;
   }
 
-  @override
   Future write(TokenModel token) async {
     await _hiveBox.putAll({
       'accessToken': token.accessToken,
@@ -41,7 +38,6 @@ class HiveTokenStorage extends TokenStorage<TokenModel> {
     });
   }
 
-  @override
   Future delete() async {
     await _hiveBox.putAll({
       'accessToken': '',
