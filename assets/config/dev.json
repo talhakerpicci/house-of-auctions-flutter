@@ -4,5 +4,5 @@
     "debugShowCheckedModeBanner": true,
     "debugShowMaterialGrid": false,
     "debugApiClient": true,
-    "apiBaseUrl": "http://localhost:3003"
+    "apiBaseUrl": "http://127.0.0.1:4242/"
 }
