@@ -34,6 +34,10 @@ void unFocus() {
   WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
 }
 
+void requestFocus(BuildContext context, FocusNode focusNode) {
+  FocusScope.of(context).requestFocus(focusNode);
+}
+
 String tr(
   BuildContext context,
   String key, {
