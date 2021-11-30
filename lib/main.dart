@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:house_of_auctions/app_main.dart';
 import 'package:house_of_auctions/application/app/app_provider.dart';
+import 'package:house_of_auctions/application/authentication/auth_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:injectable/injectable.dart';
@@ -38,6 +39,7 @@ Future main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AppProvider>(create: (_) => getIt<AppProvider>()),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => getIt<AuthProvider>()),
       ],
       child: AppMain(),
     ),
