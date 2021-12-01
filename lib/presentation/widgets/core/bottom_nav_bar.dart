@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/app/app_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
-import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 
-class BottomNavigationBarWidget extends StatelessWidget {
+class BottomNavigationBarWidget extends ConsumerWidget {
   final int pageIndex;
   const BottomNavigationBarWidget({
     Key? key,
@@ -14,7 +14,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ConvexAppBar(
       curveSize: 90,
       style: TabStyle.fixedCircle,
@@ -26,7 +26,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
         }
         return !intercept;
       },
-      onTap: (index) => getIt<AppProvider>().changePageIndex(index: index),
+      onTap: (index) => ref.read(appProvider.notifier).changePageIndex(index),
       elevation: 0,
       items: [
         const TabItem(icon: Icons.home, title: 'Home'),
