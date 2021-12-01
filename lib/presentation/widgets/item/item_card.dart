@@ -26,7 +26,7 @@ class ItemCard extends StatelessWidget {
         child: GestureDetector(
           onTap: () async {},
           child: Hero(
-            tag: '',
+            tag: url,
             child: CustomCachedNetworkImage(
               url: url,
               boxFit: BoxFit.contain,
