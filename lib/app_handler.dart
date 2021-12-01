@@ -1,12 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:house_of_auctions/application/authentication/auth_provider.dart';
-import 'package:house_of_auctions/application/base/base_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
-import 'package:house_of_auctions/infrastructure/core/helpers/log/log_it.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/data_storage/data_storage.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
-import 'package:provider/provider.dart';
 
 class AppHandler extends StatefulWidget {
   const AppHandler({
@@ -75,9 +71,7 @@ class _AppHandlerState extends State<AppHandler> {
       }
     });
 
-    return Consumer<AuthProvider>(
-      builder: (_, value, __) {
-        if (value.state == ViewState.ready) {
+    /* if (value.state == ViewState.ready) {
           AutoRouter.of(widget.navigatorKey.currentContext!).replace(
             const AppNavigatorRoute(),
           );
@@ -85,9 +79,8 @@ class _AppHandlerState extends State<AppHandler> {
           AutoRouter.of(widget.navigatorKey.currentContext!).replace(
             const WelcomeScreenRoute(),
           );
-        }
-        return widget.screen;
-      },
-    );
+        } */
+
+    return widget.screen;
   }
 }
