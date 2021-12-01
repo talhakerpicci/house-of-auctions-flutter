@@ -4,5 +4,5 @@
     "debugShowCheckedModeBanner": true,
     "debugShowMaterialGrid": false,
     "debugApiClient": true,
-    "apiBaseUrl": "http://127.0.0.1:4242/"
+    "apiBaseUrl": "http://192.168.0.24:4242"
 }
