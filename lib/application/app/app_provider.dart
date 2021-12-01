@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-@lazySingleton
-class AppProvider extends ChangeNotifier {
-  int pageIndex = 0;
-  void changePageIndex({required int index}) {
-    pageIndex = index;
-    notifyListeners();
+final appProvider = StateNotifierProvider((ref) {
+  return PageIndex();
+});
+
+class PageIndex extends StateNotifier<int> {
+  PageIndex() : super(0);
+
+  void changePageIndex(int index) {
+    state = index;
   }
 }
