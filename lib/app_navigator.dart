@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/app/app_provider.dart';
-import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/presentation/screens/items/item_feed_screen.dart';
 import 'package:house_of_auctions/presentation/widgets/core/bottom_nav_bar.dart';
 import 'package:house_of_auctions/presentation/widgets/core/search_app_bar_widget.dart';
-import 'package:provider/provider.dart';
 
-enum NavigatorIndex { assets, tasks, requests, notifications }
-
-class AppNavigator extends StatefulWidget {
+class AppNavigator extends ConsumerWidget {
   const AppNavigator({Key? key}) : super(key: key);
 
   @override
-  _AppNavigatorState createState() => _AppNavigatorState();
-}
-
-class _AppNavigatorState extends State<AppNavigator> {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<AppProvider>(
-      builder: (_, value, __) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Consumer(
+      builder: (context, ref, _) {
+        final index = ref.watch(appProvider)! as int;
         return Scaffold(
           appBar: const SearchAppbarWidget(),
-          body: _getBodyViews().elementAt(value.pageIndex),
+          body: _getBodyViews().elementAt(index),
           bottomNavigationBar: BottomNavigationBarWidget(
-            pageIndex: value.pageIndex,
+            pageIndex: index,
           ),
         );
       },
