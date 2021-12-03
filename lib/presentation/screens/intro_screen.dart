@@ -26,7 +26,7 @@ class IntroScreenState extends State<IntroScreen> {
 
   Future<void> onDonePress() async {
     await getIt<HiveDataStorage>().write(
-      const AppDataModel(showIntro: false),
+      const AppDataModel(skipIntro: true),
     );
 
     await context.router.replace(const WelcomeScreenRoute());
