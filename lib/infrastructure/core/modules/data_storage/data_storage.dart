@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:house_of_auctions/domain/models/core/app_data_model.dart';
 import 'package:injectable/injectable.dart';
 
-@LazySingleton()
+@lazySingleton
 @preResolve
 class HiveDataStorage {
   final Box<dynamic> _hiveBox;
@@ -13,25 +13,25 @@ class HiveDataStorage {
   @factoryMethod
   static Future<HiveDataStorage> create() async {
     final box = await Hive.openBox('appData');
-    
+
     return HiveDataStorage(box);
   }
 
   AppDataModel read() {
-    final _showIntro = _hiveBox.get('showIntro', defaultValue: true) as bool;
+    final _skipIntro = _hiveBox.get('skipIntro') as bool;
 
-    return AppDataModel(showIntro: _showIntro);
+    return AppDataModel(skipIntro: _skipIntro);
   }
 
   Future write(AppDataModel data) async {
     await _hiveBox.putAll({
-      'showIntro': data.showIntro,
+      'skipIntro': data.skipIntro,
     });
   }
 
   Future delete() async {
     await _hiveBox.putAll({
-      'showIntro': null,
+      'skipIntro': null,
     });
   }
 }
