@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
 import 'package:house_of_auctions/presentation/widgets/core/user_avatar.dart';
 
@@ -21,7 +22,9 @@ class SearchAppbarWidget extends StatelessWidget with PreferredSizeWidget {
         child: Row(
           children: [
             GestureDetector(
-              /* onTap: () => getIt<AuthCubit>().logOut(), */
+              onTap: () async {
+                await context.router.push(const UserProfileScreenRoute());
+              },
               child: const UserAvatar(/* user: userModel */),
             ),
             const SizedBox(width: 16),
