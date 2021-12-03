@@ -7,6 +7,7 @@ import 'package:house_of_auctions/presentation/screens/authentication/welcome_sc
 import 'package:house_of_auctions/presentation/screens/intro_screen.dart';
 import 'package:house_of_auctions/presentation/screens/items/add_item_screen.dart';
 import 'package:house_of_auctions/presentation/screens/splash_screen.dart';
+import 'package:house_of_auctions/presentation/screens/user/user_profile_screen.dart';
 
 @MaterialAutoRouter(
   routes: [
@@ -17,6 +18,7 @@ import 'package:house_of_auctions/presentation/screens/splash_screen.dart';
     MaterialRoute(page: LoginScreen),
     MaterialRoute(page: AppNavigator),
     MaterialRoute(page: AddItemScreen),
+    MaterialRoute(page: UserProfileScreen),
   ],
 )
 class $AppRouter {}
