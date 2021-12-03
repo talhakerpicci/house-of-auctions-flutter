@@ -1,10 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:house_of_auctions/application/authentication/auth_provider.dart';
+import 'package:house_of_auctions/domain/models/core/alert_model.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
+import 'package:house_of_auctions/infrastructure/core/helpers/bar/bar_helper.dart';
+import 'package:house_of_auctions/infrastructure/core/helpers/log/log_it.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/data_storage/data_storage.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
+import 'package:house_of_auctions/presentation/widgets/core/loading_overlay_widget.dart';
 
-class AppHandler extends StatefulWidget {
+class AppHandler extends ConsumerStatefulWidget {
   const AppHandler({
     Key? key,
     required this.screen,
@@ -18,69 +24,100 @@ class AppHandler extends StatefulWidget {
   _AppHandlerState createState() => _AppHandlerState();
 }
 
-class _AppHandlerState extends State<AppHandler> {
+class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStateMixin {
   bool isInitialRun = true;
+  OverlayEntry? overlayEntry;
+  OverlayState? overlayState;
+  late AnimationController animationController;
+  late Animation<double> animation;
+
   @override
-  Widget build(BuildContext context) {
-    // displays an any overlay in order to block or inform the user
-    // in any active page according to the appState.
-    return _authHandler(); /* MultiBlocListener(
-      listeners: [
-        BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            _handleLoadingNAlert(state: state);
-          },
-        ),
-      ],
-      child: _authHandler(),
-    ); */
+  void initState() {
+    // inits variables
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(animationController);
+
+    super.initState();
   }
 
-  void _handleLoadingNAlert({required dynamic state}) {
-    /* if (state is AuthLoading) {
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _authHandler();
+  }
+
+  Widget _authHandler() {
+    final data = getIt<HiveDataStorage>().read();
+    ref.listen(authStateNotifierProvider, (stateBefore, stateAfter) {
+      getIt<LogIt>().info(stateAfter);
+      _handleLoadingNAlert(
+        isLoading: stateAfter is AuthLoading,
+        error: stateAfter is AuthFailed ? stateAfter.alert : null,
+      );
+      if (stateAfter is Authenticated) {
+        AutoRouter.of(widget.navigatorKey.currentContext!).replace(
+          const AppNavigatorRoute(),
+        );
+      } else if (stateAfter is Unauthenticated && data.skipIntro) {
+        AutoRouter.of(widget.navigatorKey.currentContext!).replace(
+          const WelcomeScreenRoute(),
+        );
+      }
+    });
+    return widget.screen;
+  }
+
+  void _handleLoadingNAlert({
+    required bool isLoading,
+    required AlertModel? error,
+  }) {
+    if (isLoading) {
       _showOverlay(widget.navigatorKey.currentState!.overlay!);
     } else {
       _hideOverlay();
     }
 
-
-
-    if (state is AuthFailed) {
+    if (error != null) {
       BarHelper.showAlert(
         widget.navigatorKey.currentContext!,
-        // ignore: avoid_dynamic_calls
-        alert: state.alert,
+        alert: error,
       );
-    } */
+    }
   }
 
-  // listens auth status in order to navigate the user
-  // in any active page according to the authState.
-  Widget _authHandler() {
-    final result = getIt<HiveDataStorage>().read();
-    if (result.showIntro) {
-      isInitialRun = false;
-    }
+  void _showOverlay(OverlayState overlay) {
+    overlayState = overlay;
+    overlayEntry = OverlayEntry(
+      builder: (context) => LoadingOverlayWidget(opacity: animation.value),
+    );
 
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      if (isInitialRun) {
-        AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-          const WelcomeScreenRoute(),
-        );
-        isInitialRun = false;
-      }
+    animationController.addListener(() {
+      overlayState!.setState(() {});
     });
 
-    /* if (value.state == ViewState.ready) {
-          AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-            const AppNavigatorRoute(),
-          );
-        } else if (value.state == ViewState.error) {
-          AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-            const WelcomeScreenRoute(),
-          );
-        } */
+    overlayState!.insert(overlayEntry!);
+    animationController.forward();
+  }
 
-    return widget.screen;
+  void _hideOverlay() {
+    if (overlayEntry != null) {
+      animationController.reverse().whenComplete(() {
+        if (overlayEntry!.mounted) {
+          overlayEntry!.remove();
+        }
+      });
+    }
   }
 }
