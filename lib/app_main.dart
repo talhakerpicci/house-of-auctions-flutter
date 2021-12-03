@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/app_handler.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/app_theme.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/data_storage/data_storage.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
-import 'package:house_of_auctions/presentation/screens/splash_screen.dart';
 
 class AppMain extends StatelessWidget {
   AppMain({Key? key}) : super(key: key);
@@ -28,29 +28,30 @@ class AppMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final result = getIt<HiveDataStorage>().read();
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: env.debugShowCheckedModeBanner,
-      debugShowMaterialGrid: env.debugShowMaterialGrid,
-      routerDelegate: AutoRouterDelegate(
-        _appRouter,
-        /* placeholder: (context) => SplashScreen(), */
-        initialRoutes: [
-          if (result.showIntro) const IntroScreenRoute(),
+    return ProviderScope(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: env.debugShowCheckedModeBanner,
+        debugShowMaterialGrid: env.debugShowMaterialGrid,
+        routerDelegate: AutoRouterDelegate(
+          _appRouter,
+          initialRoutes: [
+            if (!result.skipIntro) const IntroScreenRoute(),
+          ],
+        ),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+        localizationsDelegates: [
+          _i18nDelegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
         ],
+        theme: AppTheme.defaultTheme,
+        builder: (_, router) {
+          return AppHandler(
+            screen: router!,
+            navigatorKey: _appRouter.navigatorKey,
+          );
+        },
       ),
-      routeInformationParser: _appRouter.defaultRouteParser(),
-      localizationsDelegates: [
-        _i18nDelegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      theme: AppTheme.defaultTheme,
-      builder: (_, router) {
-        return AppHandler(
-          screen: router!,
-          navigatorKey: _appRouter.navigatorKey,
-        );
-      },
     );
   }
 }
