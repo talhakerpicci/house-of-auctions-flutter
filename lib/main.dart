@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:house_of_auctions/app_main.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
@@ -33,14 +32,5 @@ Future main() async {
     }).sendPort,
   );
 
-  runApp(
-    ProviderScope(
-      /* providers: [
-        ChangeNotifierProvider<AppProvider>(create: (_) => getIt<AppProvider>()),
-        ChangeNotifierProvider<AuthProvider>(create: (_) => getIt<AuthProvider>()),
-      ], */
-
-      child: AppMain(),
-    ),
-  );
+  runApp(AppMain());
 }
