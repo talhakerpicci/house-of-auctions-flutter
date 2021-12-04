@@ -30,6 +30,8 @@ class ApiClient {
   Future<Response> post(String path, dynamic data) async {
     try {
       return await _dio.post(path, data: data);
+    } on DioError {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
@@ -38,6 +40,8 @@ class ApiClient {
   Future<Response> put(String path, dynamic data) async {
     try {
       return await _dio.put(path, data: data);
+    } on DioError {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
@@ -46,6 +50,8 @@ class ApiClient {
   Future<Response> delete(String path) async {
     try {
       return await _dio.delete(path);
+    } on DioError {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
@@ -54,6 +60,8 @@ class ApiClient {
   Future<Response> get(String path) async {
     try {
       return await _dio.get(path);
+    } on DioError {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
