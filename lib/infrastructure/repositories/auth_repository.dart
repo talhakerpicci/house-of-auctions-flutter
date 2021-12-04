@@ -31,7 +31,7 @@ class AuthRepository implements IAuthRepository {
     } catch (e) {
       String errorMessage;
 
-      if (e is DioError) {
+      if (e is DioError && e.response != null) {
         errorMessage = (e.response!.data as Map)['message'];
       } else {
         errorMessage = e.toString();
