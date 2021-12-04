@@ -1,4 +1,5 @@
 import 'package:data_channel/data_channel.dart';
+import 'package:dio/dio.dart';
 import 'package:house_of_auctions/domain/interfaces/i_auth_repository.dart';
 import 'package:house_of_auctions/domain/models/core/alert_model.dart';
 import 'package:house_of_auctions/domain/models/core/token_model.dart';
@@ -28,7 +29,15 @@ class AuthRepository implements IAuthRepository {
 
       return DC.data(tokenModel);
     } catch (e) {
-      final _alert = AlertModel(message: e.toString(), type: AlertType.error);
+      String errorMessage;
+
+      if (e is DioError) {
+        errorMessage = (e.response!.data as Map)['message'];
+      } else {
+        errorMessage = e.toString();
+      }
+
+      final _alert = AlertModel(message: errorMessage, type: AlertType.error);
 
       return DC.error(_alert);
     }
@@ -39,6 +48,7 @@ class AuthRepository implements IAuthRepository {
     try {
       final data = model.toJson();
       data['password'] = password;
+
       final result = await _apiClient.post('/register', data);
       final tokenModel = TokenModel(
         accessToken: (result.data as Map)['access_token'],
@@ -47,7 +57,15 @@ class AuthRepository implements IAuthRepository {
 
       return DC.data(tokenModel);
     } catch (e) {
-      final _alert = AlertModel(message: e.toString(), type: AlertType.error);
+      String errorMessage;
+
+      if (e is DioError) {
+        errorMessage = (e.response!.data as Map)['message'];
+      } else {
+        errorMessage = e.toString();
+      }
+
+      final _alert = AlertModel(message: errorMessage, type: AlertType.error);
 
       return DC.error(_alert);
     }
