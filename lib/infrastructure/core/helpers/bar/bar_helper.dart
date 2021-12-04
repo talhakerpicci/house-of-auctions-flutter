@@ -8,7 +8,7 @@ class BarHelper {
   static void showAlert(
     BuildContext context, {
     required AlertModel alert,
-    bool showTitle = false,
+    bool showAboveBottomBar = false,
   }) {
     if (alert.type == AlertType.info) {
       _createAlertModal(
@@ -18,6 +18,7 @@ class BarHelper {
           color: Colors.white,
         ),
         backgroundGradient: Gradients.getDefaultGradient(Gradients.green),
+        showAboveBottomBar: showAboveBottomBar,
       ).show(context);
     } else if (alert.type == AlertType.success) {
       _createAlertModal(
@@ -27,6 +28,7 @@ class BarHelper {
           color: Colors.white,
         ),
         backgroundGradient: Gradients.getDefaultGradient(Gradients.green),
+        showAboveBottomBar: showAboveBottomBar,
       ).show(context);
     } else if (alert.type == AlertType.error) {
       _createAlertModal(
@@ -36,6 +38,7 @@ class BarHelper {
           color: Colors.white,
         ),
         backgroundGradient: Gradients.getDefaultGradient(Gradients.red),
+        showAboveBottomBar: showAboveBottomBar,
       ).show(context);
     }
   }
@@ -46,6 +49,7 @@ class BarHelper {
     Gradient? backgroundGradient,
     String? title,
     Duration duration = const Duration(seconds: 3),
+    bool showAboveBottomBar = false,
   }) {
     return Flushbar(
       title: title,
@@ -58,7 +62,7 @@ class BarHelper {
       backgroundGradient: backgroundGradient,
       messageSize: 16,
       borderRadius: const BorderRadius.all(Radius.circular(16)),
-      margin: const EdgeInsets.all(8),
+      margin: EdgeInsets.only(bottom: showAboveBottomBar ? 60 : 8, right: 8, left: 8),
       shouldIconPulse: false,
       duration: duration,
     );
