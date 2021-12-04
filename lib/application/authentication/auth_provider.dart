@@ -7,7 +7,6 @@ import 'package:house_of_auctions/domain/models/core/alert_model.dart';
 import 'package:house_of_auctions/domain/models/user/user_model.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/token_storage/token_storage.dart';
-import 'package:injectable/injectable.dart';
 
 part 'auth_provider.freezed.dart';
 part 'auth_state.dart';
@@ -16,7 +15,6 @@ final authStateNotifierProvider = StateNotifierProvider<AuthStateNotifier, AuthS
   (ref) => AuthStateNotifier(getIt<IAuthRepository>()),
 );
 
-@lazySingleton
 class AuthStateNotifier extends StateNotifier<AuthState> {
   final IAuthRepository _authRepository;
   AuthStateNotifier(this._authRepository) : super(const AuthState.loading()) {
@@ -44,7 +42,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       },
       onData: (token) {
         getIt<HiveTokenStorage>().write(token);
-        state = const AuthState.authenticated();
+        state = const AuthState.authenticated(
+          alert: AlertModel(
+            message: 'Successfully logged in',
+            type: AlertType.success,
+          ),
+        );
       },
     );
   }
@@ -60,10 +63,18 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       },
       onData: (token) {
         getIt<HiveTokenStorage>().write(token);
-        state = const AuthState.authenticated();
+        state = const AuthState.authenticated(
+          alert: AlertModel(
+            message: 'Successfully registered',
+            type: AlertType.success,
+          ),
+        );
       },
     );
   }
 
-  Future<void> logout() async {}
+  Future<void> logout() async {
+    await getIt<HiveTokenStorage>().delete();
+    state = const AuthState.unauthenticated();
+  }
 }
