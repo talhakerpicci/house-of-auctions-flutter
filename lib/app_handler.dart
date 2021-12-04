@@ -60,19 +60,35 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
 
   Widget _authHandler() {
     final data = getIt<HiveDataStorage>().read();
+
     ref.listen(authStateNotifierProvider, (stateBefore, stateAfter) {
       getIt<LogIt>().info(stateAfter);
       _handleLoadingNAlert(
         isLoading: stateAfter is AuthLoading,
         error: stateAfter is AuthFailed ? stateAfter.alert : null,
       );
+
       if (stateAfter is Authenticated) {
-        AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-          const AppNavigatorRoute(),
+        AutoRouter.of(widget.navigatorKey.currentContext!).replaceAll(
+          [
+            const AppNavigatorRoute(),
+          ],
         );
+        Future.delayed(const Duration(milliseconds: 100)).then((value) {
+          if (stateAfter.alert != null) {
+            getIt<LogIt>().info('HERE');
+            BarHelper.showAlert(
+              widget.navigatorKey.currentContext!,
+              alert: stateAfter.alert!,
+              showAboveBottomBar: true,
+            );
+          }
+        });
       } else if (stateAfter is Unauthenticated && data.skipIntro) {
-        AutoRouter.of(widget.navigatorKey.currentContext!).replace(
-          const WelcomeScreenRoute(),
+        AutoRouter.of(widget.navigatorKey.currentContext!).replaceAll(
+          [
+            const WelcomeScreenRoute(),
+          ],
         );
       }
     });
