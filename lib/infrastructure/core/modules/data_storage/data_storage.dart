@@ -18,9 +18,9 @@ class HiveDataStorage {
   }
 
   AppDataModel read() {
-    final _skipIntro = _hiveBox.get('skipIntro') as bool;
+    final _skipIntro = _hiveBox.get('skipIntro');
 
-    return AppDataModel(skipIntro: _skipIntro);
+    return AppDataModel(skipIntro: _skipIntro ?? false);
   }
 
   Future write(AppDataModel data) async {
