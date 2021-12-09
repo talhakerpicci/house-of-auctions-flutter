@@ -40,8 +40,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       onError: (error) {
         state = AuthState.failed(alert: AlertModel(message: error.message, type: AlertType.error));
       },
-      onData: (token) {
-        getIt<HiveTokenStorage>().write(token);
+      onData: (token) async {
+        // TODO: should we put await?
+        await getIt<HiveTokenStorage>().write(token);
         state = const AuthState.authenticated(
           alert: AlertModel(
             message: 'Successfully logged in',
