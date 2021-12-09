@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
 
 class ItemCard extends StatelessWidget {
@@ -21,16 +22,41 @@ class ItemCard extends StatelessWidget {
           )
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: GestureDetector(
-          onTap: () async {},
-          child: Hero(
-            tag: url,
-            child: CustomCachedNetworkImage(
-              url: url,
-              boxFit: BoxFit.contain,
-            ),
+      child: GestureDetector(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            children: [
+              Expanded(
+                child: Hero(
+                  tag: url,
+                  child: CustomCachedNetworkImage(
+                    url: url,
+                    boxFit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Container(
+                color: Colors.blue.withOpacity(0.6),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: 40,
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.bolt,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      '9.5900 TL',
+                      style: getTextTheme(context).subtitle1!.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
