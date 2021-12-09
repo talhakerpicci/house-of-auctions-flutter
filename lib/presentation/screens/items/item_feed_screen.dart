@@ -30,6 +30,7 @@ class _ItemFeedScreenState extends State<ItemFeedScreen> {
           crossAxisCount: 2,
           crossAxisSpacing: 18,
           mainAxisSpacing: 18,
+          childAspectRatio: 0.75,
         ),
         itemCount: urls.length,
         itemBuilder: (context, index) {
