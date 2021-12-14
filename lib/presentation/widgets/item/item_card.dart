@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
 
@@ -37,7 +38,7 @@ class ItemCard extends StatelessWidget {
                 ),
               ),
               Container(
-                color: Colors.blue.withOpacity(0.6),
+                color: AppColors.blue.withOpacity(0.8),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: 40,
                 child: Row(
