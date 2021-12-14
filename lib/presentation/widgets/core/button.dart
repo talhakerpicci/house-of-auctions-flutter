@@ -71,7 +71,7 @@ class CustomButton extends StatelessWidget {
       gradient: !disabled && color != Colors.white
           ? Gradients.getDefaultGradient(
               Gradients.colorToGradient[color] ?? [],
-              opacity: 0.5,
+              opacity: 0.75,
             )
           : null,
       color: Colors.white,
