@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class SliverAppBarWidget extends StatelessWidget {
@@ -14,7 +15,9 @@ class SliverAppBarWidget extends StatelessWidget {
         SliverAppBar(
           pinned: true,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              AutoRouter.of(context).pop();
+            },
             icon: const Icon(Icons.close),
             color: Colors.black,
           ),
@@ -27,12 +30,12 @@ class SliverAppBarWidget extends StatelessWidget {
                 final deltaExtent = settings.maxExtent - settings.minExtent;
                 final scrollingRate = (1.0 - (settings.currentExtent - settings.minExtent) / deltaExtent).clamp(0.0, 1.0);
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 18, left: 12 + 40 * scrollingRate),
+                  padding: EdgeInsets.only(bottom: 14, left: 12 + 40 * scrollingRate),
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       'Listing details',
-                      style: TextStyle(fontSize: 24 - 6 * scrollingRate, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 36 - 12 * scrollingRate, fontWeight: FontWeight.bold),
                     ),
                   ),
                 );
