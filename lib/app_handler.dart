@@ -11,14 +11,7 @@ import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.d
 import 'package:house_of_auctions/presentation/widgets/core/loading_overlay_widget.dart';
 
 class AppHandler extends ConsumerStatefulWidget {
-  const AppHandler({
-    Key? key,
-    required this.screen,
-    required this.navigatorKey,
-  }) : super(key: key);
-
-  final Widget screen;
-  final GlobalKey<NavigatorState> navigatorKey;
+  const AppHandler({Key? key}) : super(key: key);
 
   @override
   _AppHandlerState createState() => _AppHandlerState();
@@ -69,7 +62,7 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
       );
 
       if (stateAfter is Authenticated) {
-        AutoRouter.of(widget.navigatorKey.currentContext!).replaceAll(
+        AutoRouter.of(context).replaceAll(
           [
             const AppNavigatorRoute(),
           ],
@@ -78,21 +71,21 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
           if (stateAfter.alert != null) {
             getIt<LogIt>().info('HERE');
             BarHelper.showAlert(
-              widget.navigatorKey.currentContext!,
+              AutoRouter.of(context).navigatorKey.currentContext!,
               alert: stateAfter.alert!,
               showAboveBottomBar: true,
             );
           }
         });
       } else if (stateAfter is Unauthenticated && data.skipIntro) {
-        AutoRouter.of(widget.navigatorKey.currentContext!).replaceAll(
+        AutoRouter.of(context).replaceAll(
           [
             const WelcomeScreenRoute(),
           ],
         );
       }
     });
-    return widget.screen;
+    return const AutoRouter();
   }
 
   void _handleLoadingNAlert({
@@ -100,21 +93,21 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
     required AlertModel? error,
   }) {
     if (isLoading) {
-      _showOverlay(widget.navigatorKey.currentState!.overlay!);
+      _showOverlay();
     } else {
       _hideOverlay();
     }
 
     if (error != null) {
       BarHelper.showAlert(
-        widget.navigatorKey.currentContext!,
+        AutoRouter.of(context).navigatorKey.currentContext!,
         alert: error,
       );
     }
   }
 
-  void _showOverlay(OverlayState overlay) {
-    overlayState = overlay;
+  void _showOverlay() {
+    overlayState = overlayState = AutoRouter.of(context).navigatorKey.currentState!.overlay;
     overlayEntry = OverlayEntry(
       builder: (context) => LoadingOverlayWidget(opacity: animation.value),
     );

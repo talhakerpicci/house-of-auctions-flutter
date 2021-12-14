@@ -1,5 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:house_of_auctions/app_handler.dart';
 import 'package:house_of_auctions/app_navigator.dart';
 import 'package:house_of_auctions/presentation/screens/authentication/login_screen.dart';
 import 'package:house_of_auctions/presentation/screens/authentication/sign_up_screen.dart';
@@ -11,14 +12,20 @@ import 'package:house_of_auctions/presentation/screens/user/user_profile_screen.
 
 @MaterialAutoRouter(
   routes: [
-    MaterialRoute(page: SplashScreen, initial: true),
-    MaterialRoute(page: IntroScreen),
-    MaterialRoute(page: SignUpScreen),
-    MaterialRoute(page: WelcomeScreen),
-    MaterialRoute(page: LoginScreen),
-    MaterialRoute(page: AppNavigator),
-    MaterialRoute(page: AddItemScreen),
-    MaterialRoute(page: UserProfileScreen),
+    MaterialRoute(
+      page: AppHandler,
+      initial: true,
+      children: [
+        MaterialRoute(page: SplashScreen, initial: true),
+        MaterialRoute(page: IntroScreen),
+        MaterialRoute(page: SignUpScreen),
+        MaterialRoute(page: WelcomeScreen),
+        MaterialRoute(page: LoginScreen),
+        MaterialRoute(page: AppNavigator),
+        MaterialRoute(page: AddItemScreen),
+        MaterialRoute(page: UserProfileScreen),
+      ],
+    ),
   ],
 )
 class $AppRouter {}

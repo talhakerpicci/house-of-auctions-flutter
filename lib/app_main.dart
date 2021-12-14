@@ -4,7 +4,6 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:house_of_auctions/app_handler.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/app_theme.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
@@ -45,12 +44,6 @@ class AppMain extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         theme: AppTheme.defaultTheme,
-        builder: (_, router) {
-          return AppHandler(
-            screen: router!,
-            navigatorKey: _appRouter.navigatorKey,
-          );
-        },
       ),
     );
   }
