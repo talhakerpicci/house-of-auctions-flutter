@@ -18,7 +18,7 @@ final authStateNotifierProvider = StateNotifierProvider<AuthStateNotifier, AuthS
 class AuthStateNotifier extends StateNotifier<AuthState> {
   final IAuthRepository _authRepository;
   AuthStateNotifier(this._authRepository) : super(const AuthState.loading()) {
-    Future.delayed(const Duration(milliseconds: 1500)).then((value) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       final token = getIt<HiveTokenStorage>().read();
       if (token != null) {
         state = const AuthState.authenticated();
