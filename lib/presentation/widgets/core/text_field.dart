@@ -63,7 +63,6 @@ class CustomTextField extends StatelessWidget {
     return Container(
       padding: padding,
       width: width,
-      /* height: height, */
       color: Colors.transparent,
       child: TextFormField(
         controller: controller,
