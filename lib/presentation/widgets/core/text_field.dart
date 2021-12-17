@@ -60,6 +60,7 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: CHANGE HEIGHT. TRY TO MAKE BIGGER
     return Container(
       padding: padding,
       width: width,
