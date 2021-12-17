@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/app/app_provider.dart';
+import 'package:house_of_auctions/presentation/screens/chat/inbox_people_screen.dart';
 import 'package:house_of_auctions/presentation/screens/items/item_feed_screen.dart';
 import 'package:house_of_auctions/presentation/widgets/core/bottom_nav_bar.dart';
 import 'package:house_of_auctions/presentation/widgets/core/search_app_bar_widget.dart';
@@ -31,9 +32,7 @@ class AppNavigator extends ConsumerWidget {
         child: Text('Following'),
       ),
       const SizedBox(),
-      const Center(
-        child: Text('Inbox'),
-      ),
+      const InboxPeopleScreen(),
       const Center(
         child: Text('My Listings'),
       ),
