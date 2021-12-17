@@ -18,9 +18,9 @@ class AppHandler extends ConsumerStatefulWidget {
 }
 
 class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStateMixin {
-  bool isInitialRun = true;
   OverlayEntry? overlayEntry;
   OverlayState? overlayState;
+  final data = getIt<HiveDataStorage>().read();
   late AnimationController animationController;
   late Animation<double> animation;
 
@@ -51,9 +51,7 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
     return _authHandler();
   }
 
-  Widget _authHandler() {
-    final data = getIt<HiveDataStorage>().read();
-
+  void listenProviders() {
     ref.listen(authStateNotifierProvider, (stateBefore, stateAfter) {
       getIt<LogIt>().info(stateAfter);
       _handleLoadingNAlert(
@@ -69,7 +67,6 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
         );
         Future.delayed(const Duration(milliseconds: 100)).then((value) {
           if (stateAfter.alert != null) {
-            getIt<LogIt>().info('HERE');
             BarHelper.showAlert(
               AutoRouter.of(context).navigatorKey.currentContext!,
               alert: stateAfter.alert!,
@@ -85,6 +82,17 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
         );
       }
     });
+  }
+
+  Widget _authHandler() {
+    if (!data.skipIntro) {
+      AutoRouter.of(context).replaceAll(
+        [
+          const IntroScreenRoute(),
+        ],
+      );
+    }
+    listenProviders();
     return const AutoRouter();
   }
 
