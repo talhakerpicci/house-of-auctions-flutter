@@ -86,6 +86,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 hintText: 'Password',
                 focusNode: passwordFocusNode,
                 controller: passwordController,
+                obscureText: true,
                 prefixIcon: const Icon(Icons.vpn_key),
                 onChanged: (String value) {
                   password = value;
