@@ -30,7 +30,7 @@ class BottomNavigationBarWidget extends ConsumerWidget {
       elevation: 0,
       items: [
         const TabItem(icon: Icons.home, title: 'Home'),
-        const TabItem(icon: Icons.notification_add_rounded, title: 'Following'),
+        const TabItem(icon: Icons.notification_add_rounded, title: 'My Bids'),
         TabItem(
             icon: Container(
           decoration: const BoxDecoration(
