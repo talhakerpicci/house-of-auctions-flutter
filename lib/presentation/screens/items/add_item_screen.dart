@@ -3,6 +3,7 @@ import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
 import 'package:house_of_auctions/presentation/widgets/core/sliver_app_bar.dart';
+import 'package:house_of_auctions/presentation/widgets/core/text_field.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
 class AddItemScreen extends StatelessWidget {
@@ -38,14 +39,124 @@ class AddItemScreen extends StatelessWidget {
                   const SpaceH20(),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SpaceW20(),
-                        plusButton(),
-                        const SpaceW10(),
-                        plusButton(),
-                        const SpaceW10(),
-                        plusButton(),
+                        Row(
+                          children: [
+                            const SpaceW20(),
+                            plusButton(),
+                            const SpaceW10(),
+                            plusButton(),
+                            const SpaceW10(),
+                            plusButton(),
+                          ],
+                        ),
+                        const SpaceH40(),
+                        CustomTextField(
+                          width: getSize(context).width,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          hintText: 'Category',
+                          prefixIcon: const Icon(Icons.title),
+                          /* focusNode: emailFocusNode,
+                          controller: emailController, */
+                          onChanged: (String value) {
+                            /* email = value; */
+                          },
+                          onFieldSubmitted: (_) {
+                            /* requestFocus(context, passwordFocusNode); */
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email cant be empty';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SpaceH10(),
+                        CustomTextField(
+                          width: getSize(context).width,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          hintText: 'Title',
+                          prefixIcon: const Icon(Icons.title),
+                          /* focusNode: emailFocusNode,
+                          controller: emailController, */
+                          onChanged: (String value) {
+                            /* email = value; */
+                          },
+                          onFieldSubmitted: (_) {
+                            /* requestFocus(context, passwordFocusNode); */
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email cant be empty';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SpaceH10(),
+                        CustomTextField(
+                          width: getSize(context).width,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          hintText: 'Price',
+                          prefixIcon: const Icon(Icons.title),
+                          /* focusNode: emailFocusNode,
+                          controller: emailController, */
+                          onChanged: (String value) {
+                            /* email = value; */
+                          },
+                          onFieldSubmitted: (_) {
+                            /* requestFocus(context, passwordFocusNode); */
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email cant be empty';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SpaceH10(),
+                        CustomTextField(
+                          width: getSize(context).width,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          hintText: 'Condition',
+                          prefixIcon: const Icon(Icons.title),
+                          /* focusNode: emailFocusNode,
+                          controller: emailController, */
+                          onChanged: (String value) {
+                            /* email = value; */
+                          },
+                          onFieldSubmitted: (_) {
+                            /* requestFocus(context, passwordFocusNode); */
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email cant be empty';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SpaceH10(),
+                        CustomTextField(
+                          width: getSize(context).width,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          hintText: 'Description',
+                          prefixIcon: const Icon(Icons.title),
+                          /* focusNode: emailFocusNode,
+                          controller: emailController, */
+                          onChanged: (String value) {
+                            /* email = value; */
+                          },
+                          onFieldSubmitted: (_) {
+                            /* requestFocus(context, passwordFocusNode); */
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email cant be empty';
+                            }
+                            return null;
+                          },
+                        ),
                       ],
                     ),
                   ),
