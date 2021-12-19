@@ -16,6 +16,10 @@ class AppTheme {
     return ThemeData(
       appBarTheme: const AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shadowColor: Colors.white,
+        elevation: 0,
       ),
       backgroundColor: AppColors.lightGrey,
       textTheme: TextTheme(
