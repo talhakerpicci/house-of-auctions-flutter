@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_of_auctions/presentation/widgets/core/search_app_bar_widget.dart';
 import 'package:house_of_auctions/presentation/widgets/item/item_card.dart';
 
 class ItemFeedScreen extends StatefulWidget {
@@ -22,22 +23,25 @@ class _ItemFeedScreenState extends State<ItemFeedScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () => Future.value(null),
-      child: GridView.builder(
-        padding: const EdgeInsets.all(10),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 18,
-          mainAxisSpacing: 18,
-          childAspectRatio: 0.75,
+    return Scaffold(
+      appBar: const SearchAppbarWidget(),
+      body: RefreshIndicator(
+        onRefresh: () => Future.value(null),
+        child: GridView.builder(
+          padding: const EdgeInsets.all(10),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 18,
+            mainAxisSpacing: 18,
+            childAspectRatio: 0.75,
+          ),
+          itemCount: urls.length,
+          itemBuilder: (context, index) {
+            return ItemCard(
+              url: urls[index],
+            );
+          },
         ),
-        itemCount: urls.length,
-        itemBuilder: (context, index) {
-          return ItemCard(
-            url: urls[index],
-          );
-        },
       ),
     );
   }
