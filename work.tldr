@@ -1,0 +1,342 @@
+{
+  "name": "New Document",
+  "fileHandle": null,
+  "document": {
+    "id": "doc",
+    "name": "New Document",
+    "version": 14,
+    "pages": {
+      "page": {
+        "id": "page",
+        "name": "Page 1",
+        "childIndex": 1,
+        "shapes": {
+          "20d9e7a2-3f1c-4bc5-20b4-8f819b1ce9ba": {
+            "id": "20d9e7a2-3f1c-4bc5-20b4-8f819b1ce9ba",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 1,
+            "point": [
+              132.5,
+              54
+            ],
+            "rotation": 0,
+            "text": "Backend",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 2.804878048780488,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "a3b6f89e-596d-428a-0f3f-0e3cfdb3f8c3": {
+            "id": "a3b6f89e-596d-428a-0f3f-0e3cfdb3f8c3",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 2,
+            "point": [
+              189,
+              156
+            ],
+            "rotation": 0,
+            "text": "Database",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1.8021978021978022,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "a33c7712-e3c9-495a-1f79-fdc215ececae": {
+            "id": "a33c7712-e3c9-495a-1f79-fdc215ececae",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 3,
+            "point": [
+              221,
+              226
+            ],
+            "rotation": 0,
+            "text": "Research about noql databases\nResearch about relational databse\nChoose the one suits best for our app",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "e6178447-2043-4c9b-1c96-617287dda516": {
+            "id": "e6178447-2043-4c9b-1c96-617287dda516",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 4,
+            "point": [
+              180,
+              353
+            ],
+            "rotation": 0,
+            "text": "REST Api",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 2.0495273598721875,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "31d6e7b6-cc98-432e-2cd3-154ebdfcf252": {
+            "id": "31d6e7b6-cc98-432e-2cd3-154ebdfcf252",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 5,
+            "point": [
+              303,
+              508
+            ],
+            "rotation": 0,
+            "text": "Review python basics\nResearch HTTP verbs\nResearch REST Principles\n",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "055b6728-7bb5-4a9b-3f96-ec1f60ff1d90": {
+            "id": "055b6728-7bb5-4a9b-3f96-ec1f60ff1d90",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 6,
+            "point": [
+              926,
+              40
+            ],
+            "rotation": 0,
+            "text": "Frontend",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 2.8314606741573036,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "8fedec4e-68ba-44ce-0bd6-be423eeb5e8f": {
+            "id": "8fedec4e-68ba-44ce-0bd6-be423eeb5e8f",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 7,
+            "point": [
+              1008,
+              143
+            ],
+            "rotation": 0,
+            "text": "Flutter",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 2.0845070422535215,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "7cf29668-04c6-4d49-2dc6-8cfa5790f48d": {
+            "id": "7cf29668-04c6-4d49-2dc6-8cfa5790f48d",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 8,
+            "point": [
+              1123,
+              296
+            ],
+            "rotation": 0,
+            "text": "Study flutter basic fundementals\nLearn about different  state managements (provider, bloc, getX) ",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "954fdf11-8349-49bb-13a6-d5b4f53e8005": {
+            "id": "954fdf11-8349-49bb-13a6-d5b4f53e8005",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 11,
+            "point": [
+              1084,
+              227
+            ],
+            "rotation": 0,
+            "text": "Study",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1.6666666666666667,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "6b17e34a-8224-47f4-03eb-68397936e923": {
+            "id": "6b17e34a-8224-47f4-03eb-68397936e923",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 12,
+            "point": [
+              1082,
+              380
+            ],
+            "rotation": 0,
+            "text": "Actual Work",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1.4782608695652173,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "d75e682b-f30c-4b0e-171d-e008890e88d5": {
+            "id": "d75e682b-f30c-4b0e-171d-e008890e88d5",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 13,
+            "point": [
+              1122,
+              438
+            ],
+            "rotation": 0,
+            "text": "Design introduction and welcome screens\nDesign user signup and login screens\nDesign bottom bar and app bar\nDesign item feed screen\nDesign item card\nDesign add item screen and item detail page\nDesign my bids screen\nDesign inbox and in app chat screens\nDesign my listings page\nDesign search item screen\nDesign users profile screen\nDesign items earned screen\nDesign settings scrren\n",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "692b5d20-17a7-41de-2d22-8c9466345b65": {
+            "id": "692b5d20-17a7-41de-2d22-8c9466345b65",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 14,
+            "point": [
+              253.6,
+              432.7
+            ],
+            "rotation": 0,
+            "text": "Study",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1.6666666666666667,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "56e41cbb-c86a-4b4e-1a22-873306aa9d01": {
+            "id": "56e41cbb-c86a-4b4e-1a22-873306aa9d01",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 15,
+            "point": [
+              246.6,
+              641.2
+            ],
+            "rotation": 0,
+            "text": "Actual Work",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1.4782608695652173,
+              "font": "script",
+              "textAlign": "start"
+            }
+          },
+          "b14e38f2-5433-46c7-072d-dd6362a0bdf0": {
+            "id": "b14e38f2-5433-46c7-072d-dd6362a0bdf0",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 16,
+            "point": [
+              289.1,
+              698.2
+            ],
+            "rotation": 0,
+            "text": "Create login function\nCreate user creation function\nCreate fetch item function\nCreate adding an item fucntion\nCreate updating an item fucntion\nCreate deleting an item fucntion\nCreate search item fucntion\nCreate bidding function",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "start"
+            }
+          }
+        },
+        "bindings": {}
+      }
+    },
+    "pageStates": {
+      "page": {
+        "id": "page",
+        "selectedIds": [],
+        "camera": {
+          "point": [
+            79.9,
+            -297.2
+          ],
+          "zoom": 1
+        },
+        "editingId": null
+      }
+    }
+  },
+  "assets": {}
+}
