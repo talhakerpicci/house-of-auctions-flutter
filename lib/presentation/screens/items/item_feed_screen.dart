@@ -17,10 +17,18 @@ class _ItemFeedScreenState extends State<ItemFeedScreen> {
     'https://pngimg.com/uploads/photo_camera/photo_camera_PNG101639.png',
     'https://pngimg.com/uploads/bmw/bmw_PNG99566.png',
     'https://pngimg.com/uploads/backpack/backpack_PNG6343.png',
-    'https://pngimg.com/uploads/vladimir_putin/vladimir_putin_PNG43.png',
-    'https://pngimg.com/uploads/hammer/hammer_PNG103357.png',
     'https://pngimg.com/uploads/hoodie/hoodie_PNG45.png',
   ];
+  List<String> prices = [
+    '9500 TL',
+    '13240 TL',
+    '560 TL',
+    '1200 TL',
+    '350000 TL',
+    '96 TL',
+    '125 TL',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +47,7 @@ class _ItemFeedScreenState extends State<ItemFeedScreen> {
           itemBuilder: (context, index) {
             return ItemCard(
               url: urls[index],
+              price: prices[index],
             );
           },
         ),
