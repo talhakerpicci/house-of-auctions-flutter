@@ -5,7 +5,11 @@ import 'package:house_of_auctions/presentation/widgets/core/cached_network_image
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
 class ItemSoldCard extends StatelessWidget {
-  const ItemSoldCard({Key? key}) : super(key: key);
+  final Map itemDetail;
+  const ItemSoldCard({
+    Key? key,
+    required this.itemDetail,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +20,11 @@ class ItemSoldCard extends StatelessWidget {
         child: Row(
           children: [
             const SpaceW10(),
-            const SizedBox(
+            SizedBox(
               height: 70,
               width: 70,
               child: CustomCachedNetworkImage(
-                url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjefFODtEBb6DmzzXDGw1nktatDmcRnaUbFRzOfWb4ouztBjVSxa9YYA0XKpbezu8oTLw&usqp=CAU',
+                url: itemDetail['picture'],
               ),
             ),
             Expanded(
@@ -31,7 +35,7 @@ class ItemSoldCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '9.850 TL',
+                      itemDetail['price'],
                       style: getTextTheme(context).subtitle1!.copyWith(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
@@ -39,14 +43,15 @@ class ItemSoldCard extends StatelessWidget {
                     ),
                     const SpaceH4(),
                     Text(
-                      'Dell Gaming G15 5510',
+                      itemDetail['name'],
+                      overflow: TextOverflow.ellipsis,
                       style: getTextTheme(context).bodyText1!.copyWith(
                             color: AppColors.darkGrey,
                           ),
                     ),
                     const SpaceH4(),
                     Text(
-                      'Sold on 12/10/21',
+                      itemDetail['soldDate'],
                       style: getTextTheme(context).bodyText1!.copyWith(
                             color: AppColors.darkGrey,
                           ),
