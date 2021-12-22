@@ -1,13 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
 
 class ItemCard extends StatelessWidget {
   final String url;
+  final String price;
   const ItemCard({
     Key? key,
     required this.url,
+    required this.price,
   }) : super(key: key);
 
   @override
@@ -24,6 +28,9 @@ class ItemCard extends StatelessWidget {
         ],
       ),
       child: GestureDetector(
+        onTap: () {
+          context.router.push(const FeedItemDetailScreenRoute());
+        },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Column(
@@ -48,7 +55,7 @@ class ItemCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Text(
-                      '9.5900 TL',
+                      price,
                       style: getTextTheme(context).subtitle1!.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
