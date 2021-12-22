@@ -8,6 +8,7 @@ import 'package:house_of_auctions/presentation/screens/authentication/welcome_sc
 import 'package:house_of_auctions/presentation/screens/chat/chat_detail_screen.dart';
 import 'package:house_of_auctions/presentation/screens/intro_screen.dart';
 import 'package:house_of_auctions/presentation/screens/items/add_item_screen.dart';
+import 'package:house_of_auctions/presentation/screens/items/feed_item_detail_screen.dart';
 import 'package:house_of_auctions/presentation/screens/splash_screen.dart';
 import 'package:house_of_auctions/presentation/screens/user/user_profile_screen.dart';
 
@@ -26,6 +27,7 @@ import 'package:house_of_auctions/presentation/screens/user/user_profile_screen.
         MaterialRoute(page: AddItemScreen),
         MaterialRoute(page: UserProfileScreen),
         MaterialRoute(page: ChatDetailScreen),
+        MaterialRoute(page: FeedItemDetailScreen),
       ],
     ),
   ],
