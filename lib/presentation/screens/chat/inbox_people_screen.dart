@@ -10,19 +10,19 @@ class InboxPeopleScreen extends StatelessWidget {
     final personList = <Map>[
       {
         'nameSurname': 'Talha Kerpiççi',
-        'avatar': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-gF3E1ORnxI67Txoj7mTKrDkqBPvURi0owvqRZf8iGDn0Kki3UmDBrsNLW_UHToaq1J8&usqp=CAU',
+        'avatar': 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/45.png',
         'item': 'Dell Gaming G15 5510',
         'itemPicture': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjefFODtEBb6DmzzXDGw1nktatDmcRnaUbFRzOfWb4ouztBjVSxa9YYA0XKpbezu8oTLw&usqp=CAU',
       },
       {
         'nameSurname': 'Mohamad Mawaldi',
-        'avatar': 'https://scontent.fist1-2.fna.fbcdn.net/v/t1.6435-9/34963391_253710871847063_8827530971633942528_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=Dg579ocdXKQAX-eIXyA&_nc_oc=AQl4DUoKMkmb5j-n57SGDB2M5hNPSDB-wUkXCQ3uL7nP0gIyr7refZrCzD5Cyt94wTA&_nc_ht=scontent.fist1-2.fna&oh=00_AT_ttVcY_7yC2Idtikq-ANZk7nQeZcr8umtM6xALpK7wVg&oe=61E33039',
+        'avatar': 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png',
         'item': 'Sennheiser Hd 201',
         'itemPicture': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvKCH6AAiHfsKT0Wbfxop_qq1cr17FLLe4Hw&usqp=CAU',
       },
       {
         'nameSurname': 'İrem Gençoğlu',
-        'avatar': 'https://assets.puzzlefactory.pl/puzzle/308/511/thumb.jpg',
+        'avatar': 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png',
         'item': 'Apple iPad 9. Nesil',
         'itemPicture': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhX2z-io1QXdvDDfxS9xwC2RZCbpVqSeqGxA&usqp=CAU',
       },
