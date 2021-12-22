@@ -86,11 +86,13 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
 
   Widget _authHandler() {
     if (!data.skipIntro) {
-      AutoRouter.of(context).replaceAll(
-        [
-          const IntroScreenRoute(),
-        ],
-      );
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        AutoRouter.of(context).replaceAll(
+          [
+            const IntroScreenRoute(),
+          ],
+        );
+      });
     }
     listenProviders();
     return const AutoRouter();
