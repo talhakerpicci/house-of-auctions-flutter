@@ -71,7 +71,7 @@ class IntroScreenState extends State<IntroScreen> {
           textAlign: TextAlign.center,
           style: theme.headline1!.copyWith(color: AppColors.blue),
         ),
-        description: 'House of Auctions is a an app where rich ppl get to get everything',
+        description: 'House of Auctions is a mobile platform for users who want to trade their items in an auction',
         pathImage: 'assets/images/sliders/business.png',
         backgroundColor: Colors.white,
         styleDescription: theme.bodyText1!.copyWith(color: AppColors.darkGrey),
