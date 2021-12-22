@@ -21,10 +21,11 @@ class ChatDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final messages = <ChatMessage>[
       ChatMessage(messageContent: 'Hello, Talha', messageType: 'receiver'),
-      ChatMessage(messageContent: 'How have you been?', messageType: 'receiver'),
-      ChatMessage(messageContent: 'Hey ${(personData['nameSurname'] as String).split(' ')[0]}, I am doing fine dude. wbu?', messageType: 'sender'),
-      ChatMessage(messageContent: 'ehhhh, doing OK.', messageType: 'receiver'),
-      ChatMessage(messageContent: 'Is there any thing wrong?', messageType: 'sender'),
+      ChatMessage(messageContent: 'Can you send me your address?', messageType: 'receiver'),
+      ChatMessage(messageContent: 'Hey ${(personData['nameSurname'] as String).split(' ')[0]}, sure thing', messageType: 'sender'),
+      ChatMessage(messageContent: 'Saatköy Köyü,26, 53740, Findikli/Istanbul, Turkey', messageType: 'sender'),
+      ChatMessage(messageContent: 'Cool. Thanks! Will pick up the item if you are available today.', messageType: 'receiver'),
+      ChatMessage(messageContent: 'Yes you can come and pick up it today, im free.', messageType: 'sender'),
     ];
     return Scaffold(
       appBar: AppBar(
@@ -105,7 +106,7 @@ class ChatDetailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       color: messages[index].messageType == 'receiver' ? Colors.grey.shade200 : Colors.blue[200],
                     ),
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(12),
                     child: Text(
                       messages[index].messageContent,
                       style: const TextStyle(fontSize: 15),
