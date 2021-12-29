@@ -9,7 +9,11 @@ import 'package:house_of_auctions/presentation/screens/chat/chat_detail_screen.d
 import 'package:house_of_auctions/presentation/screens/intro_screen.dart';
 import 'package:house_of_auctions/presentation/screens/items/add_item_screen.dart';
 import 'package:house_of_auctions/presentation/screens/items/feed_item_detail_screen.dart';
+import 'package:house_of_auctions/presentation/screens/items/search_item_screen.dart';
 import 'package:house_of_auctions/presentation/screens/splash_screen.dart';
+import 'package:house_of_auctions/presentation/screens/user/update_email_screen.dart';
+import 'package:house_of_auctions/presentation/screens/user/update_name_screen.dart';
+import 'package:house_of_auctions/presentation/screens/user/update_password_screen.dart';
 import 'package:house_of_auctions/presentation/screens/user/user_profile_screen.dart';
 
 @MaterialAutoRouter(
@@ -28,6 +32,10 @@ import 'package:house_of_auctions/presentation/screens/user/user_profile_screen.
         MaterialRoute(page: UserProfileScreen),
         MaterialRoute(page: ChatDetailScreen),
         MaterialRoute(page: FeedItemDetailScreen),
+        MaterialRoute(page: UpdateNameScreen),
+        MaterialRoute(page: UpdateEmailScreen),
+        MaterialRoute(page: UpdatePasswordScreen),
+        MaterialRoute(page: SearchItemScreen),
       ],
     ),
   ],
