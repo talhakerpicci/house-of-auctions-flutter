@@ -87,7 +87,9 @@ class _FeedItemDetailScreenState extends State<FeedItemDetailScreen> {
                         top: 5,
                         left: 8,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
                           child: Container(
                             width: 36,
                             height: 36,
