@@ -33,8 +33,9 @@ class SearchAppbarWidget extends StatelessWidget with PreferredSizeWidget {
                 borderRadius: 12,
                 color: Colors.white,
                 fullWidth: false,
-                // TODO: NAVIGATTE TO SEARCH SCREEN
-                onPressed: () {},
+                onPressed: () {
+                  context.router.push(const SearchItemScreenRoute());
+                },
                 child: Text(
                   'Search items',
                   style: getTextTheme(context).bodyText2!.copyWith(
