@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/authentication/auth_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -230,7 +232,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(20),
-                        onTap: () {},
+                        onTap: () {
+                          context.router.push(UpdateNameScreenRoute(nameSurname: 'Talha Kerpicci'));
+                        },
                         child: Row(
                           children: <Widget>[
                             const SpaceW12(),
@@ -324,7 +328,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(20),
-                        onTap: () {},
+                        onTap: () {
+                          context.router.push(const UpdateEmailScreenRoute());
+                        },
                         child: Row(
                           children: <Widget>[
                             const SpaceW12(),
@@ -370,7 +376,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(20),
-                        onTap: () {},
+                        onTap: () {
+                          context.router.push(const UpdatePasswordScreenRoute());
+                        },
                         child: Row(
                           children: <Widget>[
                             const SpaceW12(),
