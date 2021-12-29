@@ -47,7 +47,7 @@ class ItemCard extends StatelessWidget {
               Container(
                 color: AppColors.blue.withOpacity(0.8),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                height: 40,
+                height: 30,
                 child: Row(
                   children: [
                     const Icon(
@@ -56,7 +56,7 @@ class ItemCard extends StatelessWidget {
                     ),
                     Text(
                       price,
-                      style: getTextTheme(context).subtitle1!.copyWith(
+                      style: getTextTheme(context).bodyText1!.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                           ),
