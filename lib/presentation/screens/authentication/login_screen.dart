@@ -107,7 +107,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 fullWidth: false,
                 buttonPadding: const EdgeInsets.symmetric(horizontal: 20),
                 onPressed: () async {
-                  /* context.router.replaceAll([const AppNavigatorRoute()]); */
                   final isValid = _form.currentState!.validate();
                   if (!isValid) {
                     return;
@@ -120,7 +119,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Center(
                   child: Text(
                     'Login',
-                    style: getTextTheme(context).subtitle1,
+                    style: getTextTheme(context).subtitle1!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                 ),
               ),
