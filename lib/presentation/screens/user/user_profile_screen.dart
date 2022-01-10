@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/authentication/auth_provider.dart';
+import 'package:house_of_auctions/application/user/user_provider.dart';
+import 'package:house_of_auctions/domain/models/user/user_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
@@ -143,8 +145,20 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     );
   }
 
+  Widget buildPicture({required bool isLoading, required UserModel user}) {
+    if (isLoading) {
+      return const CircularProgressIndicator();
+    } else {
+      return CustomCachedNetworkImage(
+        url: user.photoUrl ?? 'https://cdn-icons.flaticon.com/png/512/3024/premium/3024605.png?token=exp=1641844212~hmac=179f2b9dec8ccdf4eef848d30af2f695',
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(userStateNotifierProvider);
+    final UserModel user = state is UserLoaded ? state.user : UserModel.initial();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -196,9 +210,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                     width: 70,
                                     height: 70,
                                     margin: const EdgeInsets.all(8),
-                                    child: const ClipOval(
-                                      child: CustomCachedNetworkImage(
-                                        url: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/45.png',
+                                    child: ClipOval(
+                                      child: buildPicture(
+                                        isLoading: state is UserLoading,
+                                        user: state is UserLoaded ? state.user : UserModel.initial(),
                                       ),
                                     ),
                                   ),
@@ -233,7 +248,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(20),
                         onTap: () {
-                          context.router.push(UpdateNameScreenRoute(nameSurname: 'Talha Kerpicci'));
+                          context.router.push(UpdateNameScreenRoute(nameSurname: user.nameSurname));
                         },
                         child: Row(
                           children: <Widget>[
@@ -248,7 +263,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 padding: const EdgeInsets.only(top: 2),
                                 margin: const EdgeInsets.only(right: 10),
                                 child: Text(
-                                  'Talha Kerpicci',
+                                  user.nameSurname,
                                   overflow: TextOverflow.ellipsis,
                                   style: getTextTheme(context).bodyText1!.copyWith(
                                         fontWeight: FontWeight.w600,
@@ -344,7 +359,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 padding: const EdgeInsets.only(top: 2),
                                 margin: const EdgeInsets.only(right: 10),
                                 child: Text(
-                                  'talha.kerpicci@gmail.com',
+                                  user.email,
                                   overflow: TextOverflow.ellipsis,
                                   style: getTextTheme(context).bodyText1!.copyWith(
                                         fontWeight: FontWeight.w600,
