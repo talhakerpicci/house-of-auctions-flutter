@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:house_of_auctions/application/user/user_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
 import 'package:house_of_auctions/presentation/widgets/core/text_field.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
-class UpdateNameScreen extends StatefulWidget {
+class UpdateNameScreen extends ConsumerStatefulWidget {
   final String nameSurname;
 
   const UpdateNameScreen({Key? key, required this.nameSurname}) : super(key: key);
@@ -14,7 +16,7 @@ class UpdateNameScreen extends StatefulWidget {
   _UpdateNameScreenState createState() => _UpdateNameScreenState();
 }
 
-class _UpdateNameScreenState extends State<UpdateNameScreen> {
+class _UpdateNameScreenState extends ConsumerState<UpdateNameScreen> {
   final _form = GlobalKey<FormState>();
 
   bool _isLoading = false;
@@ -51,7 +53,15 @@ class _UpdateNameScreenState extends State<UpdateNameScreen> {
     return CustomButton(
       buttonPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       color: AppColors.blue,
-      onPressed: () {},
+      onPressed: () {
+        var state = ref.read(userStateNotifierProvider);
+        var user = (state as UserLoaded).user;
+        ref.read(userStateNotifierProvider.notifier).updateUserInfo(
+              newUserData: user.copyWith(
+                nameSurname: 'Talha Kerpicci',
+              ),
+            );
+      },
       child: Center(
         child: Text(
           'Update',
