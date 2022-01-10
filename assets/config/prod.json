@@ -4,5 +4,5 @@
     "debugShowCheckedModeBanner": false,
     "debugShowMaterialGrid": false,
     "debugApiClient": false,
-    "apiBaseUrl": "https://house-of-auctions.herokuapp.com/"
+    "apiBaseUrl": "https://house-of-auctions.herokuapp.com"
 }
