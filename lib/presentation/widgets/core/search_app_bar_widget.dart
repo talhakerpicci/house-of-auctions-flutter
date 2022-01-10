@@ -25,7 +25,7 @@ class SearchAppbarWidget extends StatelessWidget with PreferredSizeWidget {
               onTap: () async {
                 await context.router.push(const UserProfileScreenRoute());
               },
-              child: const UserAvatar(/* user: userModel */),
+              child: const UserAvatar(),
             ),
             const SizedBox(width: 16),
             Expanded(
