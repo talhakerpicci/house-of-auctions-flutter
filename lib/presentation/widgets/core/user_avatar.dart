@@ -1,74 +1,75 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:house_of_auctions/application/user/user_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/app_theme.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
+import 'package:house_of_auctions/infrastructure/core/helpers/bar/bar_helper.dart';
 
 enum AvatarSize { small, medium, large, xLarge }
 
-class UserAvatar extends StatefulWidget {
-  /* final UserModel user; */
+class UserAvatar extends ConsumerWidget {
   final AvatarSize size;
 
   const UserAvatar({
     Key? key,
-    /* required this.user, */
     this.size = AvatarSize.large,
   }) : super(key: key);
 
-  @override
-  State<UserAvatar> createState() => _UserAvatarState();
-}
-
-class _UserAvatarState extends State<UserAvatar> {
-  late final Color _backgroundColor;
-
-  bool get isInitial => false; /* widget.user == UserModel.initial(); */
-
-  @override
-  void initState() {
-    _backgroundColor = AppColors.getRandomColor();
-    super.initState();
+  Widget buildAvatar(UserState state, BuildContext context) {
+    if (state is UserLoading) {
+      return const CircularProgressIndicator();
+    } else if (state is UserLoaded) {
+      final nameSurname = state.user.nameSurname.split(' ');
+      final firstName = nameSurname[0][0].toUpperCase();
+      final lastName = nameSurname.length > 1 ? nameSurname[1][0].toUpperCase() : '';
+      return Text(
+        '$firstName$lastName',
+        style: AppTheme.defaultTextStyle.copyWith(
+          fontSize: getFontSize(),
+          color: AppColors.lightGrey.withOpacity(0.8),
+        ),
+      );
+    } else {
+      BarHelper.showAlert(
+        AutoRouter.of(context).navigatorKey.currentContext!,
+        alert: (state as UserFailed).alert,
+        showAboveBottomBar: true,
+      );
+      return const SizedBox();
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final firstName = 'Talha'; /* widget.user.firstName; */
-    final lastName = 'Kerpicci'; /* widget.user.lastName; */
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.lightGrey,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.darkGrey.withOpacity(0.1),
-            blurRadius: 2,
-            offset: const Offset(0, 1), // changes position of shadow
+  Widget build(BuildContext context, WidgetRef ref) {
+    final backgroundColor = AppColors.getRandomColor();
+    return Consumer(builder: (context, ref, _) {
+      final state = ref.watch(userStateNotifierProvider);
+      return Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColors.lightGrey,
           ),
-        ],
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: CircleAvatar(
-        backgroundColor: _backgroundColor,
-        radius: getSize(),
-        child: isInitial
-            ? Icon(
-                Icons.person,
-                color: AppColors.lightGrey.withOpacity(0.8),
-              )
-            : Text(
-                '${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}',
-                style: AppTheme.defaultTextStyle.copyWith(
-                  fontSize: getFontSize(),
-                  color: AppColors.lightGrey.withOpacity(0.8),
-                ),
-              ),
-      ),
-    );
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.darkGrey.withOpacity(0.1),
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: CircleAvatar(
+          backgroundColor: backgroundColor,
+          radius: getSize(),
+          child: buildAvatar(state, context),
+        ),
+      );
+    });
   }
 
   double getSize() {
-    switch (widget.size) {
+    switch (size) {
       case AvatarSize.small:
         return 8;
       case AvatarSize.medium:
@@ -81,7 +82,7 @@ class _UserAvatarState extends State<UserAvatar> {
   }
 
   double getFontSize() {
-    switch (widget.size) {
+    switch (size) {
       case AvatarSize.small:
         return 7.2;
       case AvatarSize.medium:
