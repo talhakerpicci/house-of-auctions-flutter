@@ -6,6 +6,7 @@ import 'package:house_of_auctions/domain/interfaces/i_auth_repository.dart';
 import 'package:house_of_auctions/domain/models/core/alert_model.dart';
 import 'package:house_of_auctions/domain/models/user/user_model.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/api_client/api_client.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/token_storage/token_storage.dart';
 
 part 'auth_provider.freezed.dart';
@@ -41,8 +42,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         state = AuthState.failed(alert: AlertModel(message: error.message, type: AlertType.error));
       },
       onData: (token) async {
-        // TODO: should we put await?
         await getIt<HiveTokenStorage>().write(token);
+        getIt<ApiClient>().updateAuthHeader();
         state = const AuthState.authenticated(
           alert: AlertModel(
             message: 'Successfully logged in',
@@ -62,8 +63,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       onError: (error) {
         state = AuthState.failed(alert: AlertModel(message: error.message, type: AlertType.error));
       },
-      onData: (token) {
-        getIt<HiveTokenStorage>().write(token);
+      onData: (token) async {
+        await getIt<HiveTokenStorage>().write(token);
+        getIt<ApiClient>().updateAuthHeader();
         state = const AuthState.authenticated(
           alert: AlertModel(
             message: 'Successfully registered',
