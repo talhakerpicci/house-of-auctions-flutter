@@ -11,12 +11,10 @@ class ApiClient {
   final HiveTokenStorage storage;
 
   ApiClient({required this.storage}) {
-    final tokenModel = storage.read();
-
     _dio.options.baseUrl = env.apiBaseUrl;
     _dio.options.connectTimeout = const Duration(seconds: 10).inMilliseconds;
     _dio.options.receiveTimeout = const Duration(seconds: 5).inMilliseconds;
-    if (tokenModel != null) _dio.options.headers['authorization'] = 'Bearer ${tokenModel.accessToken}';
+    updateAuthHeader();
 
     if (env.debugApiClient) {
       _dio.interceptors.add(PrettyDioLogger(
@@ -24,6 +22,13 @@ class ApiClient {
         requestBody: true,
         responseHeader: true,
       ));
+    }
+  }
+
+  void updateAuthHeader() {
+    final tokenModel = storage.read();
+    if (tokenModel != null) {
+      _dio.options.headers['authorization'] = 'Bearer ${tokenModel.accessToken}';
     }
   }
 
