@@ -1,17 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:house_of_auctions/domain/models/item/item_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
 
 class ItemCard extends StatelessWidget {
-  final String url;
-  final String price;
+  final ItemModel item;
   const ItemCard({
     Key? key,
-    required this.url,
-    required this.price,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -29,7 +28,7 @@ class ItemCard extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          context.router.push(const FeedItemDetailScreenRoute());
+          context.router.push(FeedItemDetailScreenRoute(item: item));
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
@@ -37,9 +36,9 @@ class ItemCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Hero(
-                  tag: url,
+                  tag: item.name,
                   child: CustomCachedNetworkImage(
-                    url: url,
+                    url: item.name,
                     boxFit: BoxFit.contain,
                   ),
                 ),
@@ -55,7 +54,7 @@ class ItemCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Text(
-                      price,
+                      '${item.initialPrice}',
                       style: getTextTheme(context).bodyText1!.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:house_of_auctions/domain/models/item/item_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
@@ -8,7 +9,11 @@ import 'package:house_of_auctions/presentation/widgets/core/text_field.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
 class FeedItemDetailScreen extends StatefulWidget {
-  const FeedItemDetailScreen({Key? key}) : super(key: key);
+  final ItemModel item;
+  const FeedItemDetailScreen({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
 
   @override
   State<FeedItemDetailScreen> createState() => _FeedItemDetailScreenState();
@@ -116,12 +121,12 @@ class _FeedItemDetailScreenState extends State<FeedItemDetailScreen> {
                       children: [
                         const SpaceH10(),
                         Text(
-                          '9500 TL',
+                          '${widget.item.initialPrice}',
                           style: getTextTheme(context).headline3,
                         ),
                         const SpaceH4(),
                         Text(
-                          'RX 580',
+                          widget.item.name,
                           style: getTextTheme(context).headline2,
                         ),
                         const SpaceH10(),
@@ -130,7 +135,7 @@ class _FeedItemDetailScreenState extends State<FeedItemDetailScreen> {
                             //Date and num of bids here
                           ],
                         ),
-                        const Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                        Text(widget.item.description),
                       ],
                     ),
                   ),
