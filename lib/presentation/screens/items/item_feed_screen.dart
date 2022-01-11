@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/items/items_provider.dart';
+import 'package:house_of_auctions/presentation/screens/error_screen.dart';
 import 'package:house_of_auctions/presentation/widgets/core/search_app_bar_widget.dart';
 import 'package:house_of_auctions/presentation/widgets/item/item_card.dart';
 
@@ -27,13 +28,14 @@ class ItemFeedScreen extends ConsumerWidget {
             itemCount: items.length,
             itemBuilder: (context, index) {
               return ItemCard(
-                url: '',
-                price: items[index].initialPrice.toString(),
+                item: items[index],
               );
             },
           ),
         ),
-        failed: (alert) => const Center(child: Text('An Error Occured')),
+        failed: (alert) => ErrorScreen(
+          onPressed: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
+        ),
       ),
     );
   }
