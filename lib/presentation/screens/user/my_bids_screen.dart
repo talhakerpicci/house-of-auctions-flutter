@@ -39,10 +39,10 @@ class MyBidsScreen extends StatelessWidget {
         ),
         itemCount: urls.length,
         itemBuilder: (context, index) {
-          return ItemCard(
+          return SizedBox(); /* ItemCard(
             url: urls[index],
             price: prices[index],
-          );
+          ); */
         },
       ),
     );
