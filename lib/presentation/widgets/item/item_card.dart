@@ -37,10 +37,15 @@ class ItemCard extends StatelessWidget {
               Expanded(
                 child: Hero(
                   tag: item.name,
-                  child: CustomCachedNetworkImage(
-                    url: item.name,
-                    boxFit: BoxFit.contain,
+                  child: Image.network(
+                    'http://192.168.0.24:4242/get-item-images',
                   ),
+
+                  /* CustomCachedNetworkImage(
+                    url: 
+                    'http://192.168.0.24:4242/get-item-images',
+                    boxFit: BoxFit.contain,
+                  ), */
                 ),
               ),
               Container(
