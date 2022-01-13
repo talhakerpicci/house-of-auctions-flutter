@@ -5,5 +5,5 @@ import 'package:image_picker/image_picker.dart';
 
 abstract class IItemsRepository {
   Future<DC<AlertModel, List<ItemModel>>> getItems();
-  Future<DC<AlertModel, void>> uplaodPicture(XFile file, String fileName);
+  Future<DC<AlertModel, void>> uplaodPicture({required XFile file, required String location, String? itemId});
 }
