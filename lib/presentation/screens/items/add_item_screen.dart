@@ -28,8 +28,12 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
       borderRadius: BorderRadius.circular(10),
       onTap: () async {
         final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.gallery);
-        
-        await getIt<IItemsRepository>().uplaodPicture(file!, '1');
+
+        await getIt<IItemsRepository>().uplaodPicture(
+          file: file!,
+          location: 'users',
+          itemId: '12',
+        );
       },
       child: Container(
         height: 80,
