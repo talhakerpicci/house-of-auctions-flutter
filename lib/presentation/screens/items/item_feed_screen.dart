@@ -11,6 +11,7 @@ class ItemFeedScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(itemsStateNotifierProvider);
+    /* ref.read(itemsStateNotifierProvider.notifier).getItems(); */
     return Scaffold(
       appBar: const SearchAppbarWidget(),
       body: state.when(
