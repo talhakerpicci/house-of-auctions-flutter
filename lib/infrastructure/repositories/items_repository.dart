@@ -37,11 +37,16 @@ class ItemsRepository implements IItemsRepository {
   }
 
   @override
-  Future<DC<AlertModel, void>> uplaodPicture(XFile file, String fileName) async {
+  Future<DC<AlertModel, void>> uplaodPicture({required XFile file, required String location, String? itemId}) async {
     try {
       final formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(file.path, filename: file.name),
+        'location': location,
+        'itemId': itemId,
       });
+      /* formData.files.addAll([
+        MapEntry("assignment", await MultipartFile.fromFile(file)),
+      ]); */
 
       await _apiClient.post(
         '/upload-image',
@@ -50,15 +55,15 @@ class ItemsRepository implements IItemsRepository {
 
       return DC.data(null);
     } catch (e) {
-      String errorMessage;
+      Object errorMessage;
 
       if (e is DioError && e.response != null) {
-        errorMessage = (e.response!.data as Map)['message'];
+        errorMessage = e.response!.data;
       } else {
         errorMessage = e.toString();
       }
 
-      final _alert = AlertModel(message: errorMessage, type: AlertType.error);
+      final _alert = AlertModel(message: errorMessage.toString(), type: AlertType.error);
 
       return DC.error(_alert);
     }
