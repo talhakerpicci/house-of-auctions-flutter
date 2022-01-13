@@ -38,7 +38,7 @@ class ItemCard extends StatelessWidget {
                 child: Hero(
                   tag: item.name,
                   child: Image.network(
-                    'http://192.168.0.24:4242/get-item-images',
+                    'http://192.168.0.24:4242/get-item-images/${item.userId}/${item.id}',
                   ),
 
                   /* CustomCachedNetworkImage(
