@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:house_of_auctions/application/user/user_provider.dart';
+import 'package:house_of_auctions/application/user_info/user_info_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
+import 'package:house_of_auctions/presentation/widgets/core/custom_loading_overlay_widget.dart';
 import 'package:house_of_auctions/presentation/widgets/core/text_field.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
@@ -20,11 +21,7 @@ class _UpdateNameScreenState extends ConsumerState<UpdateNameScreen> {
   final _form = GlobalKey<FormState>();
 
   bool _isLoading = false;
-  bool _showIndicator = false;
-
   String _newNameSurname = '';
-
-  final FocusNode _nameSurnameFocusNode = FocusNode();
 
   final TextEditingController _nameSurnameController = TextEditingController();
 
@@ -53,14 +50,20 @@ class _UpdateNameScreenState extends ConsumerState<UpdateNameScreen> {
     return CustomButton(
       buttonPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       color: AppColors.blue,
-      onPressed: () {
-        var state = ref.read(userStateNotifierProvider);
-        var user = (state as UserLoaded).user;
-        ref.read(userStateNotifierProvider.notifier).updateUserInfo(
+      onPressed: () async {
+        final state = ref.read(userStateNotifierProvider);
+        final user = (state as UserLoaded).user;
+        setState(() {
+          _isLoading = true;
+        });
+        await ref.read(userInfoStateNotifierProvider.notifier).updateUserInfo(
               newUserData: user.copyWith(
-                nameSurname: 'Talha Kerpicci',
+                nameSurname: _newNameSurname,
               ),
             );
+        setState(() {
+          _isLoading = false;
+        });
       },
       child: Center(
         child: Text(
@@ -78,11 +81,14 @@ class _UpdateNameScreenState extends ConsumerState<UpdateNameScreen> {
       key: _form,
       child: CustomTextField(
         width: getSize(context).width,
+        controller: _nameSurnameController,
         height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         hintText: 'Name Surname',
         prefixIcon: const Icon(Icons.email),
-        onChanged: (String value) {},
+        onChanged: (String value) {
+          _newNameSurname = value;
+        },
         onFieldSubmitted: (_) {},
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -99,84 +105,88 @@ class _UpdateNameScreenState extends ConsumerState<UpdateNameScreen> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: GestureDetector(
-        onTap: unFocus,
-        child: Stack(
-          children: [
-            SizedBox(
-              height: height,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: width,
-                    height: height / 3,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          AppColors.blue,
-                          AppColors.blue,
-                        ],
+      body: CustomLoadingOverlayWidget(
+        isLoading: _isLoading,
+        opacity: 0.7,
+        child: GestureDetector(
+          onTap: unFocus,
+          child: Stack(
+            children: [
+              SizedBox(
+                height: height,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: width,
+                      height: height / 3,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            AppColors.blue,
+                            AppColors.blue,
+                          ],
+                        ),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(90),
+                        ),
                       ),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(90),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Spacer(),
-                        Padding(
-                          padding: EdgeInsets.only(top: 50.0),
-                          child: Align(
-                            child: Text(
-                              'House of Auctions',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 38,
-                                fontWeight: FontWeight.bold,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Spacer(),
+                          Padding(
+                            padding: EdgeInsets.only(top: 50),
+                            child: Align(
+                              child: Text(
+                                'House of Auctions',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 38,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Spacer(),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 32, right: 32),
-                            child: Text(
-                              'Update Profile',
-                              style: TextStyle(color: Colors.white, fontSize: 14),
+                          Spacer(),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 32, right: 32),
+                              child: Text(
+                                'Update Profile',
+                                style: TextStyle(color: Colors.white, fontSize: 14),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 12),
-                      child: ListView(
-                        children: <Widget>[
-                          const SpaceH60(),
-                          nameSurnameWidget(),
-                          const SpaceH10(),
-                          submitButton(),
-                          const SpaceH20(),
                         ],
                       ),
                     ),
-                  )
-                ],
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                        child: ListView(
+                          children: <Widget>[
+                            const SpaceH60(),
+                            nameSurnameWidget(),
+                            const SpaceH10(),
+                            submitButton(),
+                            const SpaceH20(),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              top: 30,
-              left: 0,
-              child: _backButton(),
-            ),
-          ],
+              Positioned(
+                top: 30,
+                left: 0,
+                child: _backButton(),
+              ),
+            ],
+          ),
         ),
       ),
     );
