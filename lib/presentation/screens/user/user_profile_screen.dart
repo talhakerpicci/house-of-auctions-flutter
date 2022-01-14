@@ -1,16 +1,27 @@
+import 'dart:math';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/authentication/auth_provider.dart';
 import 'package:house_of_auctions/application/user/user_provider.dart';
+import 'package:house_of_auctions/application/user_info/user_info_provider.dart';
+import 'package:house_of_auctions/domain/models/core/alert_model.dart';
 import 'package:house_of_auctions/domain/models/user/user_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
+import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
+import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/infrastructure/core/helpers/bar/bar_helper.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/image_picker/custom_image_picker.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
-import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/token_storage/token_storage.dart';
+import 'package:house_of_auctions/presentation/widgets/core/progress_indicator.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_circular_animator/widget_circular_animator.dart';
+import 'package:intl/intl.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -19,8 +30,9 @@ class UserProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
-  void _settingModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
+  Future<void> _settingModalBottomSheet(BuildContext context) async {
+    final result = await showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -59,13 +71,22 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                              Navigator.pop(context);
-                              if (await Permission.storage.request().isGranted) {
+                              Navigator.pop(context, 'galerry');
+                              /* if (await Permission.storage.request().isGranted) {
+                                final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.gallery);
+                                await ref.read(userInfoStateNotifierProvider.notifier).updateUserPicture(file: file!);
+
+                                /* await getIt<IItemsRepository>().uplaodPicture(
+                                    file: file!,
+                                    location: 'users',
+                                    itemId: '12',
+                                  );
+                                }, */
                               } else if (await Permission.storage.isPermanentlyDenied) {
                                 /* if (state) {
                                   await openAppSettings();
                                 } */
-                              }
+                              } */
                             },
                           ),
                           Text(
@@ -143,22 +164,69 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
         );
       },
     );
+    if (result == 'galerry') {
+      final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.gallery);
+      await ref.read(userInfoStateNotifierProvider.notifier).updateUserPicture(file: file!);
+    }
   }
 
   Widget buildPicture({required bool isLoading, required UserModel user}) {
-    if (isLoading) {
-      return const CircularProgressIndicator();
-    } else {
-      return CustomCachedNetworkImage(
-        url: 'http://192.168.0.24:4242/get-user-image/1'/* user.photoUrl */ ?? 'https://cdn-icons.flaticon.com/png/512/3024/premium/3024605.png?token=exp=1641844212~hmac=179f2b9dec8ccdf4eef848d30af2f695',
-      );
-    }
+    final token = getIt<HiveTokenStorage>().read();
+
+    print(nowParam);
+    return Image.network(
+      '${env.apiBaseUrl}/get-user-image/${user.id}#$nowParam',
+      headers: {'Authorization': 'Bearer ${token!.accessToken}'},
+      key: ValueKey(1),
+      /* ValueKey(
+        '${env.apiBaseUrl}/get-user-image/${user.id}',
+      ), */
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress != null) {
+          return Container(
+            color: Colors.white,
+            child: const Center(
+              child: CustomProgressIndicator(
+                size: 30,
+              ),
+            ),
+          );
+        } else {
+          return Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(30),
+              ),
+              color: Colors.white,
+            ),
+            child: child,
+          );
+        }
+      },
+      errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+      fit: BoxFit.cover,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(userStateNotifierProvider);
-    final UserModel user = state is UserLoaded ? state.user : UserModel.initial();
+    final user = state is UserLoaded ? state.user : UserModel.initial();
+
+    ref.listen(userInfoStateNotifierProvider, (stateBefore, stateAfter) {
+      if (stateAfter is UserInfoSuccess) {
+        Navigator.pop(context);
+        ref.read(userStateNotifierProvider.notifier).updateLocalUser(newUserData: stateAfter.user);
+        BarHelper.showAlert(
+          context,
+          alert: stateAfter.alert,
+          position: FlushbarPosition.TOP,
+        );
+      } else if (stateAfter is UserInfoFailed) {
+        BarHelper.showAlert(context, alert: stateAfter.alert);
+      }
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -200,8 +268,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               height: 90,
                               color: Colors.white,
                               child: GestureDetector(
-                                onTap: () {
-                                  _settingModalBottomSheet(context);
+                                onTap: () async {
+                                  await _settingModalBottomSheet(context);
+                                  setState(() {
+                                    nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
+                                  });
                                 },
                                 child: WidgetCircularAnimator(
                                   innerColor: AppColors.blue,
@@ -213,7 +284,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                     child: ClipOval(
                                       child: buildPicture(
                                         isLoading: state is UserLoading,
-                                        user: state is UserLoaded ? state.user : UserModel.initial(),
+                                        user: user,
                                       ),
                                     ),
                                   ),
