@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:house_of_auctions/infrastructure/core/di/di.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/token_storage/token_storage.dart';
 import 'package:house_of_auctions/presentation/widgets/core/progress_indicator.dart';
 
 class CustomCachedNetworkImage extends StatelessWidget {
@@ -20,10 +22,12 @@ class CustomCachedNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final token = getIt<HiveTokenStorage>().read();
     return CachedNetworkImage(
       width: width,
       height: height,
       imageUrl: url,
+      httpHeaders: {'Authorization': 'Bearer ${token!.accessToken}'},
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
