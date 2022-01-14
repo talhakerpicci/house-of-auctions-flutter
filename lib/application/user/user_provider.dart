@@ -15,9 +15,7 @@ final userStateNotifierProvider = StateNotifierProvider<UserStateNotifier, UserS
 
 class UserStateNotifier extends StateNotifier<UserState> {
   final IUserRepository _userRepository;
-  UserStateNotifier(this._userRepository) : super(const UserState.loading()) {
-    getUserDetails();
-  }
+  UserStateNotifier(this._userRepository) : super(const UserState.loading());
 
   Future<void> getUserDetails() async {
     state = const UserState.loading();

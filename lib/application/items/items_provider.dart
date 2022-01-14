@@ -15,9 +15,7 @@ final itemsStateNotifierProvider = StateNotifierProvider<ItemsStateNotifier, Ite
 
 class ItemsStateNotifier extends StateNotifier<ItemsState> {
   final IItemsRepository _itemsRepository;
-  ItemsStateNotifier(this._itemsRepository) : super(const ItemsState.loading()) {
-    getItems();
-  }
+  ItemsStateNotifier(this._itemsRepository) : super(const ItemsState.loading());
 
   Future<void> getItems() async {
     state = const ItemsState.loading();
