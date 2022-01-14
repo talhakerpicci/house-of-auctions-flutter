@@ -150,7 +150,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       return const CircularProgressIndicator();
     } else {
       return CustomCachedNetworkImage(
-        url: user.photoUrl ?? 'https://cdn-icons.flaticon.com/png/512/3024/premium/3024605.png?token=exp=1641844212~hmac=179f2b9dec8ccdf4eef848d30af2f695',
+        url: 'http://192.168.0.24:4242/get-user-image/1'/* user.photoUrl */ ?? 'https://cdn-icons.flaticon.com/png/512/3024/premium/3024605.png?token=exp=1641844212~hmac=179f2b9dec8ccdf4eef848d30af2f695',
       );
     }
   }
