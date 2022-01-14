@@ -32,7 +32,9 @@ class UserStateNotifier extends StateNotifier<UserState> {
     );
   }
 
-  Future<void> updateUserInfo({required UserModel newUserData}) async {
-    state = UserState.loaded(user: newUserData);
+  Future<void> updateLocalUser({required UserModel newUserData}) async {
+    if (state is UserLoaded) {
+      state = UserState.loaded(user: newUserData);
+    }
   }
 }
