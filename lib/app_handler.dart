@@ -101,6 +101,7 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
     return const AutoRouter();
   }
 
+  // TODO: try this on other places
   void _handleLoadingNAlert({
     required bool isLoading,
     required AlertModel? error,
