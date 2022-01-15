@@ -37,12 +37,37 @@ class ItemsRepository implements IItemsRepository {
   }
 
   @override
-  Future<DC<AlertModel, void>> uplaodPicture({required XFile file, required String location, String? itemId}) async {
+  Future<DC<AlertModel, ItemModel>> addItem({required ItemModel item}) async {
+    try {
+      final response = await _apiClient.post('/item', item.toJson());
+      final model = ItemModel.fromJson(response.data);
+
+      return DC.data(model);
+    } catch (e) {
+      String errorMessage;
+
+      if (e is DioError) {
+        errorMessage = (e.response!.data as Map)['message'];
+      } else {
+        errorMessage = e.toString();
+      }
+
+      final _alert = AlertModel(message: errorMessage, type: AlertType.error);
+
+      return DC.error(_alert);
+    }
+  }
+
+  @override
+  Future<DC<AlertModel, void>> uplaodPicture({required List<XFile> files, required String location, String? itemId}) async {
     try {
       final formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(file.path, filename: file.name),
+        for (var i = 0; i < files.length; i++) ...{
+          'file_$i': await MultipartFile.fromFile(files[i].path, filename: files[i].name),
+        },
         'location': location,
         'itemId': itemId,
+        'fileCount': files.length,
       });
       /* formData.files.addAll([
         MapEntry("assignment", await MultipartFile.fromFile(file)),
