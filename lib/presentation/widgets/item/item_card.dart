@@ -2,9 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:house_of_auctions/domain/models/item/item_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
+import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
+import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
-import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/token_storage/token_storage.dart';
+import 'package:house_of_auctions/presentation/widgets/core/progress_indicator.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
@@ -38,14 +41,33 @@ class ItemCard extends StatelessWidget {
                 child: Hero(
                   tag: item.name,
                   child: Image.network(
-                    'http://192.168.0.24:4242/get-item-images/${item.userId}/${item.id}',
+                    '${env.apiBaseUrl}/get-item-image/${item.userId}/${item.id}',
+                    headers: {'Authorization': 'Bearer ${getIt<HiveTokenStorage>().read()!.accessToken}'},
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress != null) {
+                        return Container(
+                          color: Colors.white,
+                          child: const Center(
+                            child: CustomProgressIndicator(
+                              size: 30,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30),
+                            ),
+                            color: Colors.white,
+                          ),
+                          child: child,
+                        );
+                      }
+                    },
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                    fit: BoxFit.cover,
                   ),
-
-                  /* CustomCachedNetworkImage(
-                    url: 
-                    'http://192.168.0.24:4242/get-item-images',
-                    boxFit: BoxFit.contain,
-                  ), */
                 ),
               ),
               Container(
