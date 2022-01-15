@@ -2,9 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:house_of_auctions/domain/models/item/item_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
+import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
+import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/token_storage/token_storage.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
-import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
+import 'package:house_of_auctions/presentation/widgets/core/progress_indicator.dart';
 import 'package:house_of_auctions/presentation/widgets/core/text_field.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
@@ -21,12 +24,16 @@ class FeedItemDetailScreen extends StatefulWidget {
 
 class _FeedItemDetailScreenState extends State<FeedItemDetailScreen> {
   int currentUrl = 0;
-  List<String> images = [
-    'https://cdn.vatanbilgisayar.com/Upload/PRODUCT/msi/thumb/v2-86368-9_large.jpg',
-    'https://sc04.alicdn.com/kf/Hf52fb9d7807b456d9bf80fb49b93a776s.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0hOGOuBQvKLmokLZzXqhmWJsF_4txCCe3g-sXt-Nrps7IkRC6bgzhr5xVOhAagmSlxvU&usqp=CAU',
-    'https://cdn.vatanbilgisayar.com/Upload/PRODUCT/msi/thumb/v2-86368-3_large.jpg',
-  ];
+  List<String> images = [];
+
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < 3; i++) {
+      images.add('${env.apiBaseUrl}/get-item-images/${widget.item.userId}/${widget.item.id}/$i');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,14 +57,33 @@ class _FeedItemDetailScreenState extends State<FeedItemDetailScreen> {
                             });
                           },
                         ),
-                        itemBuilder: (
-                          BuildContext context,
-                          int itemIndex,
-                          int pageViewIndex,
-                        ) =>
-                            CustomCachedNetworkImage(
-                          url: images[itemIndex],
-                          boxFit: BoxFit.fill,
+                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => Image.network(
+                          images[itemIndex],
+                          headers: {'Authorization': 'Bearer ${getIt<HiveTokenStorage>().read()!.accessToken}'},
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress != null) {
+                              return Container(
+                                color: Colors.white,
+                                child: const Center(
+                                  child: CustomProgressIndicator(
+                                    size: 30,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30),
+                                  ),
+                                  color: Colors.white,
+                                ),
+                                child: child,
+                              );
+                            }
+                          },
+                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                          fit: BoxFit.fill,
                         ),
                       ),
                       Positioned(
