@@ -1,5 +1,5 @@
 {
-    "env": "production",
+    "env": "prod",
     "debug": false,
     "debugShowCheckedModeBanner": false,
     "debugShowMaterialGrid": false,
