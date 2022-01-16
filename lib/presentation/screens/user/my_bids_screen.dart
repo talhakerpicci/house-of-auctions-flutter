@@ -1,49 +1,77 @@
 import 'package:flutter/material.dart';
-import 'package:house_of_auctions/presentation/widgets/item/item_card.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:house_of_auctions/application/bid/bid_provider.dart';
+import 'package:house_of_auctions/application/items/items_provider.dart';
+import 'package:house_of_auctions/application/user/user_provider.dart';
+import 'package:house_of_auctions/domain/models/user/user_model.dart';
+import 'package:house_of_auctions/presentation/screens/empty_screen.dart';
+import 'package:house_of_auctions/presentation/screens/error_screen.dart';
+import 'package:house_of_auctions/presentation/widgets/bid/bid_card.dart';
 
-class MyBidsScreen extends StatelessWidget {
+class MyBidsScreen extends ConsumerWidget {
   const MyBidsScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final urls = <String>[
-      'https://pngimg.com/uploads/iphone_13/iphone_13_PNG5.png',
-      'https://pngimg.com/uploads/laptop/laptop_PNG101764.png',
-      'https://pngimg.com/uploads/headphones/headphones_PNG101980.png',
-      'https://pngimg.com/uploads/photo_camera/photo_camera_PNG101639.png',
-      'https://pngimg.com/uploads/bmw/bmw_PNG99566.png',
-      'https://pngimg.com/uploads/backpack/backpack_PNG6343.png',
-      'https://pngimg.com/uploads/hoodie/hoodie_PNG45.png',
-    ];
-    final prices = <String>[
-      '9500 TL',
-      '13240 TL',
-      '560 TL',
-      '1200 TL',
-      '350000 TL',
-      '96 TL',
-      '125 TL',
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bidState = ref.watch(bidStateNotifierProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('My Bids'),
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(10),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 18,
-          mainAxisSpacing: 18,
-          childAspectRatio: 0.75,
-        ),
-        itemCount: urls.length,
-        itemBuilder: (context, index) {
-          return SizedBox(); /* ItemCard(
-            url: urls[index],
-            price: prices[index],
-          ); */
+      body: bidState.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        loaded: (bids) {
+          var items = (ref.read(itemsStateNotifierProvider) as ItemsLoaded).items;
+          items = items.where((item) {
+            final endDate = DateTime.parse(item.endDate);
+            final now = DateTime.now();
+
+            if (now.isBefore(endDate)) {
+              return true;
+            }
+            return false;
+          }).toList();
+
+          final bids = (bidState as BidsLoaded).bids;
+          final uniqueBids = [];
+
+          for (final bid in bids) {
+            if (!uniqueBids.contains(bid.itemId)) {
+              uniqueBids.add(bid.itemId);
+            }
+          }
+
+          items = items.where((element) => uniqueBids.contains(element.id)).toList();
+
+          if (items.isEmpty) {
+            return const EmptyScreen(
+              message: 'Try bidding for some items!',
+              icon: Icons.foundation,
+            );
+          }
+          return ListView.builder(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final highestBid = bids.reduce((a, b) {
+                  if (a.bidAmount > a.bidAmount) {
+                    return a;
+                  } else {
+                    return b;
+                  }
+                });
+                return BidCard(
+                  item: items[index],
+                  bid: highestBid,
+                );
+              });
         },
+        failed: (alert) => ErrorScreen(
+          onPressed: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
+        ),
       ),
     );
   }
