@@ -1,33 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:house_of_auctions/application/items/items_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/presentation/screens/error_screen.dart';
+import 'package:house_of_auctions/presentation/widgets/item/item_card.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
-class SearchItemScreen extends StatefulWidget {
+class SearchItemScreen extends ConsumerStatefulWidget {
   const SearchItemScreen({Key? key}) : super(key: key);
 
   @override
   _SearchItemScreenState createState() => _SearchItemScreenState();
 }
 
-class _SearchItemScreenState extends State<SearchItemScreen> {
-  List searchList = [];
+class _SearchItemScreenState extends ConsumerState<SearchItemScreen> {
+  String keyWord = '';
 
   Widget buildBody() {
+    final state = ref.watch(itemsStateNotifierProvider);
     return Column(
       children: [
         Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 1 / 1.55,
-              crossAxisSpacing: 14,
-              mainAxisSpacing: 14,
-            ),
-            itemCount: searchList.length,
-            itemBuilder: (context, index) {
-              return Container();
+          child: state.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            loaded: (items) {
+              items = (ref.read(itemsStateNotifierProvider) as ItemsLoaded)
+                  .items
+                  .where(
+                    (element) => element.name.toLowerCase().contains(keyWord.toLowerCase()),
+                  )
+                  .toList();
+              return GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1 / 1.55,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
+                ),
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return ItemCard(
+                    item: items[index],
+                  );
+                },
+              );
             },
+            failed: (alert) => ErrorScreen(
+              onPressed: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
+            ),
           ),
         ),
       ],
@@ -74,7 +95,7 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
                             Icons.arrow_back,
                           ),
                         ),
-                        trailing: SizedBox(
+                        /* trailing: SizedBox(
                           width: 60,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,13 +112,16 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
                               ),
                             ],
                           ),
-                        ),
+                        ), */
                         title: TextField(
-                            decoration: const InputDecoration.collapsed(hintText: 'Search item...'),
-                            textInputAction: TextInputAction.done,
-                            onChanged: (value) {
-                              setState(() {});
-                            }),
+                          decoration: const InputDecoration.collapsed(hintText: 'Search item...'),
+                          textInputAction: TextInputAction.done,
+                          onChanged: (value) {
+                            setState(() {
+                              keyWord = value;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
