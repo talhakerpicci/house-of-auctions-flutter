@@ -37,6 +37,8 @@ class AddItemStateNotifier extends StateNotifier<AddItemState> {
     );
   }
 
+  // TODO: PUT UPDATE ITEM HERE
+
   Future<void> updateItemPicture({required List<XFile> files, required String itemId}) async {
     await _itemsRepository.uplaodPicture(files: files, itemId: itemId, location: 'items');
   }
