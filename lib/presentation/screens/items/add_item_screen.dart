@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/add_item/add_item_provider.dart';
 import 'package:house_of_auctions/application/user/user_provider.dart';
+import 'package:house_of_auctions/domain/models/core/alert_model.dart';
 import 'package:house_of_auctions/domain/models/item/item_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/di/di.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/app_helper_functions.dart';
+import 'package:house_of_auctions/infrastructure/core/helpers/bar/bar_helper.dart';
 import 'package:house_of_auctions/infrastructure/core/modules/image_picker/custom_image_picker.dart';
 import 'package:house_of_auctions/presentation/widgets/core/button.dart';
 import 'package:house_of_auctions/presentation/widgets/core/custom_loading_overlay_widget.dart';
@@ -199,6 +201,11 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                       onPressed: () async {
                         final isValid = _form.currentState!.validate();
                         if (!isValid) {
+                          return;
+                        }
+
+                        if (images.isEmpty) {
+                          BarHelper.showAlert(context, alert: const AlertModel(message: 'At least one image required', type: AlertType.error));
                           return;
                         }
 
