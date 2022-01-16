@@ -1,33 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:house_of_auctions/application/items/items_provider.dart';
+import 'package:house_of_auctions/application/user/user_provider.dart';
+import 'package:house_of_auctions/domain/models/user/user_model.dart';
+import 'package:house_of_auctions/presentation/screens/empty_screen.dart';
+import 'package:house_of_auctions/presentation/screens/error_screen.dart';
 import 'package:house_of_auctions/presentation/widgets/item/item_sold_card.dart';
 
-class ItemsSoldScreen extends StatelessWidget {
+class ItemsSoldScreen extends ConsumerWidget {
   const ItemsSoldScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final itemList = <Map>[
-      {
-        'name': 'Dell Gaming G15 5510',
-        'picture': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjefFODtEBb6DmzzXDGw1nktatDmcRnaUbFRzOfWb4ouztBjVSxa9YYA0XKpbezu8oTLw&usqp=CAU',
-        'price': '13200 Tl',
-        'soldDate': 'Sold at 12/10/21',
-      },
-      {
-        'name': 'RX 580 Ekran Karti',
-        'picture': 'https://cdn.vatanbilgisayar.com/Upload/PRODUCT/msi/thumb/v2-86368-9_large.jpg',
-        'price': '9200 Tl',
-        'soldDate': 'Sold at 29/12/21',
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(userStateNotifierProvider);
+    final user = userState is UserLoaded ? userState.user : UserModel.initial();
+    final state = ref.watch(itemsStateNotifierProvider);
     return Scaffold(
-      body: ListView.builder(
-        padding: const EdgeInsets.only(
-          top: 10,
-        ),
-        itemCount: itemList.length,
-        itemBuilder: (context, index) => ItemSoldCard(
-          itemDetail: itemList[index],
+      body: state.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        loaded: (items) {
+          items = items.where((item) {
+            final endDate = DateTime.parse(item.endDate);
+            final now = DateTime.now();
+            if (item.userId == user.id && endDate.isBefore(now)) {
+              return true;
+            }
+            return false;
+          }).toList();
+          if (items.isEmpty) {
+            return const EmptyScreen(
+              message: 'No items sold',
+              icon: Icons.foundation,
+            );
+          }
+          return ListView.builder(
+            padding: const EdgeInsets.only(
+              top: 10,
+            ),
+            itemCount: items.length,
+            itemBuilder: (context, index) => ItemSoldCard(
+              item: items[index],
+            ),
+          );
+        },
+        failed: (alert) => ErrorScreen(
+          onPressed: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
         ),
       ),
     );
