@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/add_item/add_item_provider.dart';
 import 'package:house_of_auctions/application/items/items_provider.dart';
 import 'package:house_of_auctions/infrastructure/core/helpers/bar/bar_helper.dart';
+import 'package:house_of_auctions/presentation/screens/empty_screen.dart';
 import 'package:house_of_auctions/presentation/screens/error_screen.dart';
 import 'package:house_of_auctions/presentation/widgets/core/search_app_bar_widget.dart';
 import 'package:house_of_auctions/presentation/widgets/item/item_card.dart';
@@ -30,24 +31,29 @@ class ItemFeedScreen extends ConsumerWidget {
       appBar: const SearchAppbarWidget(),
       body: state.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        loaded: (items) => RefreshIndicator(
-          onRefresh: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
-          child: GridView.builder(
-            padding: const EdgeInsets.all(10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 18,
-              mainAxisSpacing: 18,
-              childAspectRatio: 0.75,
+        loaded: (items) {
+          if (items.isEmpty) {
+            return const EmptyScreen(message: 'No items found', icon: Icons.home);
+          }
+          return RefreshIndicator(
+            onRefresh: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
+            child: GridView.builder(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 18,
+                mainAxisSpacing: 18,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return ItemCard(
+                  item: items[index],
+                );
+              },
             ),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return ItemCard(
-                item: items[index],
-              );
-            },
-          ),
-        ),
+          );
+        },
         failed: (alert) => ErrorScreen(
           onPressed: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
         ),
