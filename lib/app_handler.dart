@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/authentication/auth_provider.dart';
+import 'package:house_of_auctions/application/bid/bid_provider.dart';
 import 'package:house_of_auctions/application/items/items_provider.dart';
 import 'package:house_of_auctions/application/user/user_provider.dart';
 import 'package:house_of_auctions/domain/models/core/alert_model.dart';
@@ -63,6 +64,7 @@ class _AppHandlerState extends ConsumerState<AppHandler> with TickerProviderStat
       if (stateAfter is Authenticated) {
         ref.read(userStateNotifierProvider.notifier).getUserDetails();
         ref.read(itemsStateNotifierProvider.notifier).getItems();
+        ref.read(bidStateNotifierProvider.notifier).getUserBids();
         AutoRouter.of(context).replaceAll(
           [
             const AppNavigatorRoute(),
