@@ -173,11 +173,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   Widget buildPicture({required bool isLoading, required UserModel user}) {
     final token = getIt<HiveTokenStorage>().read();
 
-    print(nowParam);
     return Image.network(
       '${env.apiBaseUrl}/get-user-image/${user.id}#$nowParam',
       headers: {'Authorization': 'Bearer ${token!.accessToken}'},
-      key: ValueKey(1),
+      key: const ValueKey(1),
       /* ValueKey(
         '${env.apiBaseUrl}/get-user-image/${user.id}',
       ), */
