@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/bid/bid_provider.dart';
+import 'package:house_of_auctions/application/items/items_provider.dart';
 import 'package:house_of_auctions/application/user/user_provider.dart';
 import 'package:house_of_auctions/domain/models/bid/bid_model.dart';
 import 'package:house_of_auctions/domain/models/core/alert_model.dart';
@@ -45,11 +46,12 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userId = (ref.read(userStateNotifierProvider) as UserLoaded).user.id;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: CustomLoadingOverlayWidget(
-          isLoading: false,
+          isLoading: isLoading,
           opacity: 0.5,
           child: Column(
             children: [
@@ -158,9 +160,31 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SpaceH10(),
-                          Text(
-                            '${widget.item.initialPrice}',
-                            style: getTextTheme(context).headline3,
+                          Row(
+                            children: [
+                              Text(
+                                '${widget.item.initialPrice}',
+                                style: getTextTheme(context).headline3,
+                              ),
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  const Text(
+                                    'Highest Bid',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${widget.item.currentBid}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SpaceW10(),
+                            ],
                           ),
                           const SpaceH4(),
                           Text(
@@ -168,11 +192,6 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
                             style: getTextTheme(context).headline2,
                           ),
                           const SpaceH10(),
-                          Row(
-                            children: [
-                              //Date and num of bids here
-                            ],
-                          ),
                           Text(widget.item.description),
                         ],
                       ),
@@ -180,73 +199,79 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
                   ],
                 ),
               ),
-              BottomAppBar(
-                child: SizedBox(
-                  height: 80,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: CustomTextField(
-                          height: 50,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          hintText: 'Amount',
-                          prefixIcon: const Icon(Icons.monetization_on),
-                          onChanged: (String value) {
-                            bid = bid.copyWith(
-                              bidAmount: double.parse(value),
-                            );
-                          },
-                          onFieldSubmitted: (_) {
-                            unFocus();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 165,
-                        height: 50,
-                        child: CustomButton(
-                          buttonPadding: const EdgeInsets.only(
-                            right: 20,
-                          ),
-                          color: AppColors.blue,
-                          onPressed: () async {
-                            if (bid.bidAmount > widget.item.currentBid) {
-                              setState(() {
-                                isLoading = true;
-                              });
+              if (userId != widget.item.userId)
+                BottomAppBar(
+                  child: SizedBox(
+                    height: 80,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: CustomTextField(
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            hintText: 'Amount',
+                            prefixIcon: const Icon(Icons.monetization_on),
+                            onChanged: (String value) {
                               bid = bid.copyWith(
-                                bidderId: (ref.read(userStateNotifierProvider) as UserLoaded).user.id,
-                                date: DateTime.now().toString(),
-                                itemId: widget.item.id,
+                                bidAmount: double.parse(value),
                               );
-                              await ref.read(bidStateNotifierProvider.notifier).createBid(bid: bid);
-                              setState(() {
-                                isLoading = false;
-                              });
-                            } else {
-                              BarHelper.showAlert(
-                                context,
-                                alert: AlertModel(
-                                  message: 'You have to make a higher bid than ${widget.item.currentBid}',
-                                  type: AlertType.error,
-                                ),
-                              );
-                            }
-                          },
-                          child: Center(
-                            child: Text(
-                              'Make a Bid',
-                              style: getTextTheme(context).headline6!.copyWith(
-                                    color: Colors.white,
+                            },
+                            onFieldSubmitted: (_) {
+                              unFocus();
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 165,
+                          height: 50,
+                          child: CustomButton(
+                            buttonPadding: const EdgeInsets.only(
+                              right: 20,
+                            ),
+                            color: AppColors.blue,
+                            onPressed: () async {
+                              if (bid.bidAmount > widget.item.currentBid) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                bid = bid.copyWith(
+                                  bidderId: (ref.read(userStateNotifierProvider) as UserLoaded).user.id,
+                                  date: DateTime.now().toString(),
+                                  itemId: widget.item.id,
+                                );
+                                await ref.read(bidStateNotifierProvider.notifier).createBid(bid: bid);
+                                await ref.read(itemsStateNotifierProvider.notifier).getItems();
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                // ignore: use_build_context_synchronously
+                                Navigator.pop(context);
+                              } else {
+                                BarHelper.showAlert(
+                                  context,
+                                  alert: AlertModel(
+                                    message: 'You have to make a higher bid than ${widget.item.currentBid}',
+                                    type: AlertType.error,
                                   ),
+                                );
+                              }
+                            },
+                            child: Center(
+                              child: Text(
+                                'Make a Bid',
+                                style: getTextTheme(context).headline6!.copyWith(
+                                      color: Colors.white,
+                                    ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ),
+                )
+              else
+                const SizedBox(),
             ],
           ),
         ),
