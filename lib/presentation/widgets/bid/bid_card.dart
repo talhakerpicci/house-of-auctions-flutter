@@ -12,10 +12,12 @@ import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 class BidCard extends StatelessWidget {
   final ItemModel item;
   final BidModel bid;
+  final void Function()? onPressed;
   const BidCard({
     Key? key,
     required this.item,
     required this.bid,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -98,7 +100,7 @@ class BidCard extends StatelessWidget {
                     Positioned(
                       right: 0,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: onPressed,
                         icon: const Icon(
                           Icons.edit,
                         ),
