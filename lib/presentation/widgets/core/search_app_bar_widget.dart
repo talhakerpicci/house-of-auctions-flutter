@@ -45,11 +45,11 @@ class SearchAppbarWidget extends StatelessWidget with PreferredSizeWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 4),
-            TextButton(
+            const SizedBox(width: 16),
+            /* TextButton(
               onPressed: () {},
               child: const Text('Filters'),
-            ),
+            ), */
           ],
         ),
       ),
