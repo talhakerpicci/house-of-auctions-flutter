@@ -64,7 +64,7 @@ class UserRepository implements IUserRepository {
   Future<DC<AlertModel, bool>> updateUserPicture({required XFile file}) async {
     try {
       final formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(file.path, filename: file.name),
+        'file_0': await MultipartFile.fromFile(file.path, filename: file.name),
         'location': 'users',
       });
       /* formData.files.addAll([
