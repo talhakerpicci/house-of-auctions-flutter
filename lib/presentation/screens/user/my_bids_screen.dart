@@ -1,9 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/bid/bid_provider.dart';
 import 'package:house_of_auctions/application/items/items_provider.dart';
-import 'package:house_of_auctions/application/user/user_provider.dart';
-import 'package:house_of_auctions/domain/models/user/user_model.dart';
+import 'package:house_of_auctions/infrastructure/core/modules/router/router.gr.dart';
 import 'package:house_of_auctions/presentation/screens/empty_screen.dart';
 import 'package:house_of_auctions/presentation/screens/error_screen.dart';
 import 'package:house_of_auctions/presentation/widgets/bid/bid_card.dart';
@@ -16,9 +16,6 @@ class MyBidsScreen extends ConsumerWidget {
     final bidState = ref.watch(bidStateNotifierProvider);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('My Bids'),
-      ),
       body: bidState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         loaded: (bids) {
@@ -66,6 +63,9 @@ class MyBidsScreen extends ConsumerWidget {
                 return BidCard(
                   item: items[index],
                   bid: highestBid,
+                  onPressed: () {
+                    context.router.push(FeedItemDetailScreenRoute(item: items[index]));
+                  },
                 );
               });
         },
