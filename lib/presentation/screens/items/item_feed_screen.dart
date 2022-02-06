@@ -43,7 +43,7 @@ class ItemFeedScreen extends ConsumerWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 18,
                 mainAxisSpacing: 18,
-                childAspectRatio: 0.75,
+                childAspectRatio: 0.70,
               ),
               itemCount: items.length,
               itemBuilder: (context, index) {
