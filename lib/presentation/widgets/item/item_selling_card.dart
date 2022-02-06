@@ -65,7 +65,7 @@ class ItemSellingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
+                        /* Padding(
                           padding: const EdgeInsets.only(right: 28),
                           child: Text(
                             item.name,
@@ -75,6 +75,14 @@ class ItemSellingCard extends StatelessWidget {
                                   fontWeight: FontWeight.w800,
                                 ),
                           ),
+                        ), */
+                        Text(
+                          item.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: getTextTheme(context).subtitle1!.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                         const SpaceH4(),
                         Text(
@@ -92,7 +100,7 @@ class ItemSellingCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Positioned(
+                    /* Positioned(
                       right: 0,
                       child: IconButton(
                         onPressed: () {},
@@ -100,7 +108,7 @@ class ItemSellingCard extends StatelessWidget {
                           Icons.edit,
                         ),
                       ),
-                    ),
+                    ), */
                   ],
                 ),
               ),
