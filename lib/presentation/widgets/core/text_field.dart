@@ -27,6 +27,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final Widget? prefixIcon;
   final bool obscureText;
+  final int? maxLines;
 
   const CustomTextField({
     Key? key,
@@ -45,6 +46,7 @@ class CustomTextField extends StatelessWidget {
     this.textStyle = const TextStyle(
       color: Colors.black,
     ),
+    this.maxLines = 1,
     this.prefixIcon,
     this.hintStyle,
     this.digitsOnly = false,
@@ -60,7 +62,6 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: CHANGE HEIGHT. TRY TO MAKE BIGGER
     return Container(
       padding: padding,
       width: width,
@@ -72,6 +73,7 @@ class CustomTextField extends StatelessWidget {
         textInputAction: textInputAction,
         textAlign: textAlign!,
         focusNode: focusNode,
+        maxLines: maxLines,
         keyboardType: keyboardType,
         onFieldSubmitted: onFieldSubmitted,
         cursorColor: Colors.grey,
