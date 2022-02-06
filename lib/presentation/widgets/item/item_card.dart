@@ -58,7 +58,7 @@ class ItemCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Text(
-                      '${item.initialPrice}',
+                      '${item.initialPrice} TL',
                       style: getTextTheme(context).bodyText1!.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
