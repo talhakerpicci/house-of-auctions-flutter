@@ -179,7 +179,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 child: Center(
                   child: Text(
                     'Sign Up',
-                    style: getTextTheme(context).subtitle1,
+                    style: getTextTheme(context).subtitle1!.copyWith(color: Colors.white),
                   ),
                 ),
               ),
