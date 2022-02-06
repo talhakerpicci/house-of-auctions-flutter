@@ -44,7 +44,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
     super.initState();
     itemNameController.value = TextEditingValue(text: item.name, selection: itemNameController.selection);
     descriptionController.value = TextEditingValue(text: item.description, selection: descriptionController.selection);
-    initialPriceController.value = TextEditingValue(text: item.initialPrice.toString(), selection: initialPriceController.selection);
+    initialPriceController.value = TextEditingValue(
+        text: item.initialPrice == 0 ? '' : item.initialPrice.toString(), selection: initialPriceController.selection);
   }
 
   Widget plusButton({XFile? image, int? index}) {
@@ -120,6 +121,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         width: getSize(context).width,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         hintText: 'Title',
+                        maxLength: 100,
                         prefixIcon: const Icon(Icons.title),
                         focusNode: itemNameFocusNode,
                         controller: itemNameController,
@@ -140,9 +142,12 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                       ),
                       const SpaceH10(),
                       CustomTextField(
+                        keyboardType: TextInputType.multiline,
                         width: getSize(context).width,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         hintText: 'Description',
+                        maxLength: 1000,
+                        maxLines: null,
                         prefixIcon: const Icon(Icons.title),
                         focusNode: descriptionFocusNode,
                         controller: descriptionController,
@@ -166,7 +171,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         width: getSize(context).width,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         hintText: 'Initial Price',
-                        prefixIcon: const Icon(Icons.title),
+                        prefixIcon: const Icon(Icons.monetization_on_outlined),
                         focusNode: initialPriceFocusNode,
                         controller: initialPriceController,
                         keyboardType: TextInputType.number,
@@ -205,7 +210,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         }
 
                         if (images.isEmpty) {
-                          BarHelper.showAlert(context, alert: const AlertModel(message: 'At least one image required', type: AlertType.error));
+                          BarHelper.showAlert(context,
+                              alert: const AlertModel(message: 'At least one image required', type: AlertType.error));
                           return;
                         }
 
