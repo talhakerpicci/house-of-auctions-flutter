@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_of_auctions/application/authentication/auth_provider.dart';
 import 'package:house_of_auctions/application/user/user_provider.dart';
 import 'package:house_of_auctions/application/user_info/user_info_provider.dart';
-import 'package:house_of_auctions/domain/models/core/alert_model.dart';
 import 'package:house_of_auctions/domain/models/user/user_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/di.dart';
@@ -19,9 +17,8 @@ import 'package:house_of_auctions/infrastructure/core/modules/token_storage/toke
 import 'package:house_of_auctions/presentation/widgets/core/progress_indicator.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:widget_circular_animator/widget_circular_animator.dart';
 import 'package:intl/intl.dart';
+import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -30,7 +27,7 @@ class UserProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
-  var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
+  String nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
   Future<void> _settingModalBottomSheet(BuildContext context) async {
     final result = await showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -110,13 +107,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                              Navigator.pop(context);
+                              Navigator.pop(context, 'camera');
+                              /* Navigator.pop(context);
                               if (await Permission.camera.request().isGranted) {
                               } else if (await Permission.camera.isPermanentlyDenied) {
                                 /* if (state) {
                                   await openAppSettings();
                                 } */
-                              }
+                              } */
                             },
                           ),
                           Text(
@@ -140,7 +138,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                              Navigator.pop(context);
+                              Navigator.pop(context, 'delete');
                             },
                           ),
                           Text(
@@ -167,6 +165,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     if (result == 'galerry') {
       final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.gallery);
       await ref.read(userInfoStateNotifierProvider.notifier).updateUserPicture(file: file!);
+    } else if (result == 'camera') {
+      final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.camera);
+      await ref.read(userInfoStateNotifierProvider.notifier).updateUserPicture(file: file!);
+    } else if (result == 'delete') {
+      final userId = (ref.read(userStateNotifierProvider) as UserLoaded).user.id;
+      await ref.read(userInfoStateNotifierProvider.notifier).removeUserPicture(userId: userId.toString());
     }
   }
 
@@ -365,8 +369,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(20),
-                        onTap: () {
-                          _settingModalBottomSheet(context);
+                        onTap: () async {
+                          await _settingModalBottomSheet(context);
+                          setState(() {
+                            nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
+                          });
                         },
                         child: Row(
                           children: <Widget>[
@@ -413,9 +420,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(20),
-                        onTap: () {
+                        /* onTap: () {
                           context.router.push(const UpdateEmailScreenRoute());
-                        },
+                        }, */
                         child: Row(
                           children: <Widget>[
                             const SpaceW12(),
@@ -437,11 +444,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 ),
                               ),
                             ),
-                            const Icon(
+                            /* const Icon(
                               Icons.arrow_forward_ios,
                               size: 14,
                             ),
-                            const SpaceW12(),
+                            const SpaceW12(), */
                           ],
                         ),
                       ),
