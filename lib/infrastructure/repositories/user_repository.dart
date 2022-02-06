@@ -91,4 +91,27 @@ class UserRepository implements IUserRepository {
       return DC.error(_alert);
     }
   }
+
+  @override
+  Future<DC<AlertModel, bool>> deleteUserPicture(String userId) async {
+    try {
+      await _apiClient.delete(
+        '/delete-user-image/$userId',
+      );
+
+      return DC.data(null);
+    } catch (e) {
+      Object errorMessage;
+
+      if (e is DioError && e.response != null) {
+        errorMessage = e.response!.data;
+      } else {
+        errorMessage = e.toString();
+      }
+
+      final _alert = AlertModel(message: errorMessage.toString(), type: AlertType.error);
+
+      return DC.error(_alert);
+    }
+  }
 }
