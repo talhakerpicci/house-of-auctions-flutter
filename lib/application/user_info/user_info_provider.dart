@@ -45,4 +45,10 @@ class UserInfoStateNotifier extends StateNotifier<UserInfoState> {
 
     await _userRepository.updateUserPicture(file: file);
   }
+
+  Future<void> removeUserPicture({required String userId}) async {
+    state = const UserInfoState.loading();
+
+    await _userRepository.deleteUserPicture(userId);
+  }
 }
