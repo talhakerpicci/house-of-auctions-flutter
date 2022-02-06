@@ -159,12 +159,12 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SpaceH10(),
+                          const SpaceH20(),
                           Row(
                             children: [
                               Text(
-                                '${widget.item.initialPrice}',
-                                style: getTextTheme(context).headline3,
+                                '${widget.item.initialPrice} TL',
+                                style: getTextTheme(context).headline4,
                               ),
                               const Spacer(),
                               Column(
@@ -186,13 +186,17 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
                               const SpaceW10(),
                             ],
                           ),
-                          const SpaceH4(),
+                          const SpaceH10(),
                           Text(
                             widget.item.name,
-                            style: getTextTheme(context).headline2,
+                            style: getTextTheme(context).headline5,
                           ),
                           const SpaceH10(),
-                          Text(widget.item.description),
+                          Text(
+                            widget.item.description,
+                            style: getTextTheme(context).bodyText1,
+                          ),
+                          const SpaceH20(),
                         ],
                       ),
                     ),
