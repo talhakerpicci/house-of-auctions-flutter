@@ -19,7 +19,7 @@ class MyBidsScreen extends ConsumerWidget {
       body: bidState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         loaded: (bids) {
-          var items = (ref.read(itemsStateNotifierProvider) as ItemsLoaded).items;
+          var items = (ref.watch(itemsStateNotifierProvider) as ItemsLoaded).items;
           items = items.where((item) {
             final endDate = DateTime.parse(item.endDate);
             final now = DateTime.now();
