@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:house_of_auctions/presentation/widgets/core/cached_network_image.dart';
 
 class ChatMessage {
   final String messageContent;
@@ -22,9 +21,12 @@ class ChatDetailScreen extends StatelessWidget {
     final messages = <ChatMessage>[
       ChatMessage(messageContent: 'Hello, Talha', messageType: 'receiver'),
       ChatMessage(messageContent: 'Can you send me your address?', messageType: 'receiver'),
-      ChatMessage(messageContent: 'Hey ${(personData['nameSurname'] as String).split(' ')[0]}, sure thing', messageType: 'sender'),
+      ChatMessage(
+          messageContent: 'Hey ${(personData['nameSurname'] as String).split(' ')[0]}, sure thing',
+          messageType: 'sender'),
       ChatMessage(messageContent: 'Saatköy Köyü,26, 53740, Findikli/Istanbul, Turkey', messageType: 'sender'),
-      ChatMessage(messageContent: 'Cool. Thanks! Will pick up the item if you are available today.', messageType: 'receiver'),
+      ChatMessage(
+          messageContent: 'Cool. Thanks! Will pick up the item if you are available today.', messageType: 'receiver'),
       ChatMessage(messageContent: 'Yes you can come and pick up it today, im free.', messageType: 'sender'),
     ];
     return Scaffold(
@@ -53,8 +55,8 @@ class ChatDetailScreen extends StatelessWidget {
                   height: 40,
                   width: 40,
                   child: ClipOval(
-                    child: CustomCachedNetworkImage(
-                      url: personData['avatar'],
+                    child: Image.network(
+                      personData['avatar'],
                     ),
                   ),
                 ),
