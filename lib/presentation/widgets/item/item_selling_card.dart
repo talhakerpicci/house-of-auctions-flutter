@@ -86,14 +86,14 @@ class ItemSellingCard extends StatelessWidget {
                         ),
                         const SpaceH4(),
                         Text(
-                          'Initial Price: ${item.initialPrice.toString()}',
+                          'Initial Price: ${item.initialPrice.toString()} TL',
                           style: getTextTheme(context).bodyText1!.copyWith(
                                 color: AppColors.darkGrey,
                               ),
                         ),
                         const SpaceH4(),
                         Text(
-                          'Highest Bid: ${item.currentBid.toString()}',
+                          'Highest Bid: ${item.currentBid.toString()} TL',
                           style: getTextTheme(context).bodyText1!.copyWith(
                                 color: AppColors.darkGrey,
                               ),

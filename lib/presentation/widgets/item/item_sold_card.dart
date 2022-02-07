@@ -64,7 +64,7 @@ class ItemSoldCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      item.currentBid.toString(),
+                      '${item.currentBid} TL',
                       style: getTextTheme(context).subtitle1!.copyWith(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
