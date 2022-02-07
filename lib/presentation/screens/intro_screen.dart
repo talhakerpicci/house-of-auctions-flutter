@@ -80,12 +80,13 @@ class IntroScreenState extends State<IntroScreen> {
     slides.add(
       Slide(
         widgetTitle: Text(
-          'Just Bid More!',
+          'Post Your Item',
           maxLines: 2,
           textAlign: TextAlign.center,
           style: theme.headline1!.copyWith(color: AppColors.blue),
         ),
-        description: 'Bid more to lose more!',
+        description:
+            'Attach pictures of your items and write a description, select auction dates and starting price. Post and see the bids coming!',
         pathImage: 'assets/images/sliders/payment.png',
         backgroundColor: Colors.white,
         styleDescription: theme.bodyText1!.copyWith(color: AppColors.darkGrey),
