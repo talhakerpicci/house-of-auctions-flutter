@@ -48,21 +48,177 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
         text: item.initialPrice == 0 ? '' : item.initialPrice.toString(), selection: initialPriceController.selection);
   }
 
+  Future<Map<String, dynamic>?> _settingModalBottomSheet(BuildContext context) async {
+    final result = await showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: AppColors.blue,
+      context: context,
+      builder: (BuildContext bc) {
+        return Wrap(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                const SpaceH14(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      'Profile Photo',
+                      style: getTextTheme(context).headline6!.copyWith(
+                            color: Colors.white,
+                          ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+                const SpaceH14(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 90,
+                      child: Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(
+                              Icons.photo_size_select_actual,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              Navigator.pop(context, 'galerry');
+                              /* if (await Permission.storage.request().isGranted) {
+                                final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.gallery);
+                                await ref.read(userInfoStateNotifierProvider.notifier).updateUserPicture(file: file!);
+
+                                /* await getIt<IItemsRepository>().uplaodPicture(
+                                    file: file!,
+                                    location: 'users',
+                                    itemId: '12',
+                                  );
+                                }, */
+                              } else if (await Permission.storage.isPermanentlyDenied) {
+                                /* if (state) {
+                                  await openAppSettings();
+                                } */
+                              } */
+                            },
+                          ),
+                          Text(
+                            'Choose From\nGallery',
+                            textAlign: TextAlign.center,
+                            style: getTextTheme(context).bodyText1!.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SpaceW10(),
+                    SizedBox(
+                      width: 90,
+                      child: Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(
+                              Icons.camera,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              Navigator.pop(context, 'camera');
+                              /* Navigator.pop(context);
+                              if (await Permission.camera.request().isGranted) {
+                              } else if (await Permission.camera.isPermanentlyDenied) {
+                                /* if (state) {
+                                  await openAppSettings();
+                                } */
+                              } */
+                            },
+                          ),
+                          Text(
+                            'Take\nPhoto',
+                            textAlign: TextAlign.center,
+                            style: getTextTheme(context).bodyText1!.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SpaceW10(),
+                    SizedBox(
+                      width: 90,
+                      child: Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              Navigator.pop(context, 'delete');
+                            },
+                          ),
+                          Text(
+                            'Delete\nPhoto',
+                            textAlign: TextAlign.center,
+                            style: getTextTheme(context).bodyText1!.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 15),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+    if (result == 'galerry') {
+      final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.gallery);
+      return {'operation': 'galerry', 'file': file};
+    } else if (result == 'camera') {
+      final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.camera);
+      return {'operation': 'camera', 'file': file};
+    } else if (result == 'delete') {
+      return {'operation': 'delete', 'file': null};
+    }
+    return {};
+  }
+
   Widget plusButton({XFile? image, int? index}) {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () async {
-        final file = await getIt<CustomImagePicker>().pickImage(source: ImageSource.gallery);
+        final result = await _settingModalBottomSheet(context);
 
-        if (file != null) {
-          if (index != null) {
-            setState(() {
-              images[index] = file;
-            });
+        if (result != null) {
+          if (result['operation'] == 'delete') {
+            try {
+              setState(() {
+                images.removeAt(index!);
+              });
+            } catch (e) {
+              return;
+            }
           } else {
-            setState(() {
-              images.add(file);
-            });
+            if (index != null) {
+              setState(() {
+                images[index] = result['file'];
+              });
+            } else {
+              setState(() {
+                images.add(result['file']);
+              });
+            }
           }
         }
       },
