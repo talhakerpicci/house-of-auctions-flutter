@@ -38,9 +38,7 @@ class ItemPersonCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(2),
             child: ClipOval(
-              child: CustomCachedNetworkImage(
-                url: personData['avatar'],
-              ),
+              child: Image.network(personData['avatar']),
             ),
           ),
         ),
