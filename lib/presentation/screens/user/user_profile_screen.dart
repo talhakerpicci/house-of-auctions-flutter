@@ -454,7 +454,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       ),
                     ),
                   ),
-                  const SpaceH12(),
+                  /* const SpaceH12(),
                   Container(
                     height: 42,
                     margin: const EdgeInsets.symmetric(
@@ -501,7 +501,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                         ),
                       ),
                     ),
-                  ),
+                  ), */
                   const SpaceH12(),
                   Container(
                     height: 42,
