@@ -175,6 +175,7 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
                                       fontSize: 20,
                                     ),
                                   ),
+                                  const SpaceH4(),
                                   Text(
                                     '${widget.item.currentBid}',
                                     style: const TextStyle(
