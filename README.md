@@ -1,16 +1,12 @@
 # House of Auctions
 
-A new Flutter project.
+House of Auctions is made to provide an auction environment for those willing to sell their items or looking to buy products with a user-friendly interface.
 
-## Getting Started
+## Getting Started and Building Instructions
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Download and install flutter from https://flutter.dev/ (make sure you have android studio installed)
+2. Open the project with android studio or vscode
+3. Open an android emulator, or if you wish to run the app on a real device, plug in your phone (make sure usb debugging is enabled)
+4. Run `flutter pub get` to get the packages
+5. Run `flutter pub run build_runner build` to generate required files
+6. To run the app connected to local server, run `flutter run --release`, to run the app connected to heroku server, run `flutter run --dart-define=APP_ENV=prod --release`. (When running locally, make sure to update your ip at assets/config/dev.json)
