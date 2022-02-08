@@ -22,7 +22,7 @@ class ItemsSoldScreen extends ConsumerWidget {
           items = items.where((item) {
             final endDate = DateTime.parse(item.endDate);
             final now = DateTime.now();
-            if (item.userId == user.id && endDate.isBefore(now)) {
+            if (item.userId == user.id && endDate.isBefore(now) && item.buyerId != user.id) {
               return true;
             }
             return false;
