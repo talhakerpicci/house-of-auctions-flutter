@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:house_of_auctions/application/user/user_provider.dart';
 import 'package:house_of_auctions/domain/models/bid/bid_model.dart';
 import 'package:house_of_auctions/domain/models/item/item_model.dart';
 import 'package:house_of_auctions/infrastructure/core/constants/colors.dart';
@@ -9,7 +11,7 @@ import 'package:house_of_auctions/infrastructure/core/modules/token_storage/toke
 import 'package:house_of_auctions/presentation/widgets/core/progress_indicator.dart';
 import 'package:house_of_auctions/presentation/widgets/spaces.dart';
 
-class BidCard extends StatelessWidget {
+class BidCard extends ConsumerWidget {
   final ItemModel item;
   final BidModel bid;
   final void Function()? onPressed;
@@ -21,9 +23,10 @@ class BidCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userId = (ref.read(userStateNotifierProvider) as UserLoaded).user.id;
     return Container(
-      height: 100,
+      height: 110,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Card(
         child: Row(
@@ -91,6 +94,13 @@ class BidCard extends StatelessWidget {
                         const SpaceH4(),
                         Text(
                           'Latest Bid: ${item.currentBid.toString()}',
+                          style: getTextTheme(context).bodyText1!.copyWith(
+                                color: AppColors.darkGrey,
+                              ),
+                        ),
+                        const SpaceH4(),
+                        Text(
+                          'Latest Bidder: ${item.buyerId == userId ? "You" : "Another User"}',
                           style: getTextTheme(context).bodyText1!.copyWith(
                                 color: AppColors.darkGrey,
                               ),
