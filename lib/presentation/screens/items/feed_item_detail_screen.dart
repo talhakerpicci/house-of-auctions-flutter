@@ -162,9 +162,21 @@ class _FeedItemDetailScreenState extends ConsumerState<FeedItemDetailScreen> {
                           const SpaceH20(),
                           Row(
                             children: [
-                              Text(
-                                '${widget.item.initialPrice} TL',
-                                style: getTextTheme(context).headline4,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${widget.item.initialPrice} TL',
+                                    style: getTextTheme(context).headline4,
+                                  ),
+                                  const SpaceH4(),
+                                  Text(
+                                    'End Date: ${widget.item.endDate.split(' ')[0]} ${widget.item.endDate.split(' ')[1].split('.')[0]}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
                               ),
                               const Spacer(),
                               Column(
