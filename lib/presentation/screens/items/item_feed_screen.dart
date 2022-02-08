@@ -35,6 +35,14 @@ class ItemFeedScreen extends ConsumerWidget {
           if (items.isEmpty) {
             return const EmptyScreen(message: 'No items found', icon: Icons.home);
           }
+          items = items.where((item) {
+            final endDate = DateTime.parse(item.endDate);
+            final now = DateTime.now();
+            if (now.isBefore(endDate)) {
+              return true;
+            }
+            return false;
+          }).toList();
           return RefreshIndicator(
             onRefresh: () => ref.read(itemsStateNotifierProvider.notifier).getItems(),
             child: GridView.builder(
